@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jquery</title>
+</head>
+
+<body>
+</body>
+<script type="text/javascript">
+    //选择器官方文档: http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp
+    /*
+    .find(selector)
+
+    selector: 字符串值, 包含供匹配当前元素集合的选择器表达式
+    */
+    function find() {
+        //搜索所有段落中的后代 span 元素, 并将其颜色设置为红色
+        $("p").find("span").css('color', 'red');
+    }
+
+
+    /*
+    add()   https://api.jquery.com/add/
+    Create a new jQuery object with elements added to the set of matched elements.
+
+    Note: To reverse the .add() you can use .not( elements | selector ) to remove elements from the jQuery results, or .end() to return to the selection before you added.
+    */
+    $("p").add("div").addClass("widget");
+    var pdiv = $("p").add("div");
+
+    //常用函数
+    /*
+    $(selector).addClass(class)
+    
+    class: 必需, 规定一个或多个 class 名称
+    */
+    function addClass() {
+        //向第一个 p 元素添加一个类
+        $("button").click(function () {
+            $("p:first").addClass("intro");
+        });
+    }
+
+    /*
+    $.ajax([settings])
+    
+    settings: 可选, 用于配置 Ajax 请求的键值对集合, 可以通过 $.ajaxSetup() 设置任何选项的默认值
+    */
+    function ajax() {
+        //无参
+        $.ajax({
+            url: "/message/get",
+            type: "GET",
+            crossDomain: true, //实现跨域访问
+            async: true,
+            beforeSend: function (request) {
+                request.setRequestHeader("key", "value");
+            }, //添加header
+            success: function (suc) {
+                console.log(suc);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+        //传JSON，注意后台需要搭配@RequestBody注解
+        var myData = custom_formToJson(formId);
+        $.ajax({
+            url: "/user/post",
+            type: "POST",
+            data: myData,
+            async: true,
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true //An object of fieldName-fieldValue pairs to set on the native XHR object. For example, you can use it to set withCredentials to true for cross-domain requests if needed.
+            },
+            success: function (suc) {
+                console.log(suc);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+        //传FormData，注意后台不能加@RequestBody注解
+        var myData = new FormData($(selector)[0]);
+        $.ajax({
+            url: myUrl,
+            type: "POST",
+            data: myData,
+            async: true,
+            contentType: false,
+            processData: false,
+            success: function (suc) {
+                console.log(suc);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    /*
+    $(selector).bind(event,data,function)
+    
+    event: 必需,规定添加到元素的一个或多个事件, 由空格分隔多个事件, 必须是有效的事件
+    data: 可选, 规定传递到函数的额外数据
+    function: 必需, 规定当事件发生时运行的函数
+    */
+    function bind() {
+        //当点击鼠标时, 隐藏或显示 p 元素
+        $("button").bind("click", function () {
+            $("p").slideToggle();
+        });
+    }
+
+    /*
+    children()
+    The children() method returns all direct children of the selected element.
+
+    Syntax
+    $(selector).children(filter)
+    Parameter
+    filter	Optional. Specifies a selector expression to narrow down the search for children
+    */
+    $(document).ready(function () {
+        $("ul").children().css({ "color": "red", "border": "2px solid red" });
+    });
+
+    /*
+    $(selector).clone(includeEvents)
+    
+    includeEvents: 可选, 布尔值, 规定是否复制元素的所有事件处理, 默认地, 副本中不包含事件处理器
+    */
+    function clone() {
+        //克隆并追加一个 p 元素
+        $("button").click(function () {
+            $("body").append($("p").clone());
+        });
+    }
+
+    /*
+    closest()
+    closest() 方法获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
+
+    语法
+    .closest(selector)
+    参数
+    selector	字符串值，包含匹配元素的选择器表达式。
+    */
+    var el = document.getElementById('div-03');
+    var r1 = el.closest("#div-02"); // 返回 id 为 div-02 的那个元素
+
+    /*
+    $(selector).each(function(index,element))
+    
+    function(index,element): 必需, 为每个匹配元素规定运行的函数
+    index: 选择器的 index 位置
+    element: 当前的元素（也可使用 "this" 选择器）
+    */
+    function each() {
+        //输出每个 li 元素的文本
+        $("button").click(function () {
+            $("li").each(function () {
+                alert($(this).text())
+            });
+        });
+    }
+
+    /*
+    stringObject.indexOf(searchvalue,fromindex)
+    
+    searchvalue: 必需, 规定需检索的字符串值
+    fromindex: 可选的整数参数, 规定在字符串中开始检索的位置, 它的合法取值是 0 到 stringObject.length - 1, 如省略该参数, 则将从字符串的首字符开始检索
+    */
+    function indexOf() {
+        //在 "Hello world!" 字符串内进行不同的检索
+        /*
+        out put
+        0
+        -1
+        6
+        */
+        var str = "Hello world!"
+        document.write(str.indexOf("Hello") + "<br />")
+        document.write(str.indexOf("World") + "<br />")
+        document.write(str.indexOf("world"));
+    }
+
+    /*
+    off()
+    The off() method is most often used to remove event handlers attached with the on() method.
+
+    Syntax
+    $(selector).off(event,selector,function(eventObj),map)
+    Parameter
+    event	Required. Specifies one or more events or namespaces to remove from the selected element(s).
+    Multiple event values are separated by a space. Must be a valid event
+    selector	Optional. A selector which should match the one originally passed to the on() method when attaching event handlers
+    function(eventObj)	Optional. Specifies the function to run when the event occurs
+    map	Specifies an event map ({event:function, event:function, ...}) containing one or more event to attach to the elements, and functions to run when the events occur
+    */
+    $("button").click(function () {
+        $("p").off("click"); //Remove the click event for all <p> elements:
+    });
+
+    /*
+    $(selector).keydown()
+    
+    function: 可选, 规定当发生 keydown 事件时运行的函数
+    */
+    function keydown() {
+        //当按下Enter键时，改变文本域的颜色
+        $("input").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $("input").css("background-color", "#FFFFCC");
+            }
+        });
+    }
+
+    function on() {
+        $(elem).on('change keyup keydown drop paste cut', function (event) {
+            text = event.target;
+            text.style.height = 'auto';
+            text.style.height = text.scrollHeight + 'px';
+        });
+    }
+
+    /*
+    window.open(URL,name,features,replace)
+    
+    URL: 一个可选的字符串, 声明了要在新窗口中显示的文档的 URL, 如果省略了这个参数, 或者它的值是空字符串, 那么新窗口就不会显示任何文档
+    name: 一个可选的字符串, 该字符串是一个由逗号分隔的特征列表, 其中包括数字、字母和下划线, 该字符声明了新窗口的名称, 这个名称可以用作标记 <a> 和 <form> 的属性 target 的值, 如果该参数指定了一个已经存在的窗口, 那么 open() 方法就不再创建一个新窗口, 而只是返回对指定窗口的引用, 在这种情况下, features 将被忽略
+    features: 一个可选的字符串, 声明了新窗口要显示的标准浏览器的特征, 如果省略该参数, 新窗口将具有所有标准特征, 在窗口特征这个表格中, 我们对该字符串的格式进行了详细的说明
+    replace: 一个可选的布尔值, 规定了装载到窗口的 URL 是在窗口的浏览历史中创建一个新条目, 还是替换浏览历史中的当前条目, 支持下面的值: 
+        true - URL 替换浏览历史中的当前条目
+        false - URL 在浏览历史中创建新的条目
+    */
+    function open() {
+        //在新浏览器窗口中打开 www.w3school.com.cn
+        window.open("http://www.w3school.com.cn");
+    }
+
+    /*
+    $(selector).remove()
+    */
+    function remove() {
+        //移除所有 <p> 元素
+        $("button").click(function () {
+            $("p").remove();
+        });
+    }
+
+    /*
+    $(selector).removeAttr(attribute)
+    
+    attribute: 必需, 规定从指定元素中移除的属性
+    */
+    function removeAttr() {
+        //从任何 p 元素中移除 id 属性
+        $("button").click(function () {
+            $("p").removeAttr("id");
+        });
+    }
+
+    /*
+    $(selector).removeClass(class)
+    
+    class: 可选, 规定要移除的 class 的名称, 如需移除若干类, 请使用空格来分隔类名, 如果不设置该参数, 则会移除所有类
+    */
+    function removeClass() {
+        //移除所有 <p> 的 "intro" 类
+        $("button").click(function () {
+            $("p:first").removeClass("intro");
+        });
+    }
+
+    /*
+    stringObject.replace(regexp/substr,replacement)
+    
+    regexp/substr: 必需, 规定子字符串或要替换的模式的 RegExp 对象, 请注意, 如果该值是一个字符串, 则将它作为要检索的直接量文本模式, 而不是首先被转换为 RegExp 对象
+    replacement: 必需, 一个字符串值, 规定了替换文本或生成替换文本的函数
+    
+    stringObject 字符串  的 replace() 方法执行的是查找并替换的操作, 它将在 stringObject 中查找与 regexp 相匹配的子字符串, 然后用 replacement 来替换这些子串. 如果 regexp 具有全局标志 g, 那么 replace() 方法将替换所有匹配的子串. 否则, 它只替换第一个匹配子串
+    replacement 可以是字符串, 也可以是函数. 如果它是字符串, 那么每个匹配都将由字符串替换. 但是 replacement 中的 $ 字符具有特定的含义
+    */
+    function replace() {
+        //使用 "W3School" 替换字符串中的 "Microsoft"
+        var str = "Visit Microsoft!";
+        document.write(str.replace(/Microsoft/, "W3School"));
+
+        //执行一次全局替换，每当 "Microsoft" 被找到, 它就被替换为 "W3School"
+        var str = "Welcome to Microsoft! ";
+        str = str + "We are proud to announce that Microsoft has ";
+        str = str + "one of the largest Web Developers sites in the world.";
+        document.write(str.replace(/Microsoft/g, "W3School"));
+    }
+
+    /*
+    $(selector).serialize()
+    */
+    function serialize() {
+        //输出序列化表单值的结果
+        $("button").click(function () {
+            $("div").text($("form").serialize());
+        });
+    }
+
+    /*
+    $(selector).serializeArray()
+    */
+    function serializeArray() {
+        //输出以数组形式序列化表单值的结果
+        $("button").click(function () {
+            x = $("form").serializeArray();
+            $.each(x, function (i, field) {
+                $("#results").append(field.name + ":" + field.value + " ");
+            });
+        });
+    }
+
+    /*
+    arrayObject.sort(sortby)
+    
+    sortby: 可选, 规定排序顺序, 必须是函数
+    
+    return 对数组的引用, 请注意, 数组在原数组上进行排序, 不生成副本
+    */
+    function sort() {
+        //按字母顺序进行排序
+        var arr = new Array(6)
+        arr[0] = "George"
+        arr[1] = "John"
+        arr[2] = "Thomas"
+        arr[3] = "James"
+        arr[4] = "Adrew"
+        arr[5] = "Martin"
+        document.write(arr + "<br />")
+        document.write(arr.sort())
+    }
+</script>
+
+</html>

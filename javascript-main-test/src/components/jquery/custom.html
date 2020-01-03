@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>custom</title>
+<style type="text/css">
+table {
+	border-collapse: collapse;
+}
+
+td {
+	font-size: 14px;
+	border: 1px solid #A9A9A9;
+}
+</style>
+</head>
+<body style="width:1900px">
+    <!-- 列内搜索, 全局模式和递进模式 -->
+    <div id="div_siftBasedOnColumn">
+        <div>
+            <select id="select_siftBasedOnColumn_mode">
+                <option value="0">全局</option>
+                <option value="1">递进</option>
+            </select>
+            <select id="select_siftBasedOnColumn_colName"></select>
+            <input
+                id="input_siftBasedOnColumn_searchValue"
+                type="text" />
+        </div>
+        <table id="table_siftBasedOnColumn">
+            <thead>
+                <tr>
+                    <td>号码</td>
+                    <td>性别</td>
+                    <td>姓名</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>18752365423</td>
+                    <td>女</td>
+                    <td>李梅</td>
+                </tr>
+                <tr>
+                    <td>13525874522</td>
+                    <td>女</td>
+                    <td>李莉</td>
+                </tr>
+                <tr>
+                    <td>18952315324</td>
+                    <td>男</td>
+                    <td>熊二</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script
+    src="./jquery-3.3.1.js"
+    type="text/javascript"></script>
+<script
+    src="./jquery.serializejson.js"
+    type="text/javascript"></script>
+<script
+    src="./custom.js"
+    type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        custom_siftBasedOnColumn("input_siftBasedOnColumn_searchValue", "select_siftBasedOnColumn_mode", "select_siftBasedOnColumn_colName", "table_siftBasedOnColumn");
+        custom_sortOnTheadClick("table_siftBasedOnColumn");
+    })
+</script>
+</html>

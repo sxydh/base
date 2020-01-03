@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://code.alibabatech.com/schema/dubbo  
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
+    ">
+    <bean
+        id="interfaceImpl"
+        class="fun.ehe.service.InterfaceImpl" />
+    <dubbo:application
+        name="serverApp"
+        owner="serverApp"
+        organization="serverApp" />
+    <dubbo:registry
+        id="registryA"
+        protocol="zookeeper"
+        address="127.0.0.1:2181"
+        username="zkAuth"
+        password="zkAuth" />
+    <dubbo:protocol
+        id="dubbo"
+        name="dubbo"
+        port="20880"
+        threads="200" />
+    <dubbo:service
+        interface="fun.ehe.service.Interface"
+        ref="interfaceImpl"
+        registry="registryA"
+        group="groupName"
+        version="1.0.0"
+        timeout="5000"
+        retries="10"
+        loadbalance="leastactive"
+        executes="5"
+        protocol="dubbo">
+        <dubbo:method
+            name="getUsers"
+            timeout="300"
+            retries="3" />
+    </dubbo:service>
+</beans>

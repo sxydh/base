@@ -1,0 +1,90 @@
+# Profile
+Samples of android core topics.
+# Include
+* 应用的界面编程
+  * 布局管理器
+    * 帧布局-[*霓虹灯效果*](./crazy-android/frame_layout)
+  * TextView及其子类
+    * EditText的功能与用法-[*用户友好的输入界面*](./crazy-android/input_ui)
+    * 按钮组件(Button)的功能与用法-[*按钮/圆形按钮/带文字的图片按钮*](./crazy-android/button_test)
+    * 单选按钮(RadioButton)和复选按钮(CheckBox)的功能与用法-[*利用单选按钮/复选框获取用户信息*](./crazy-android/check_button)
+    * 时钟的功能与用法(AnalogClock和TextClock)-[*手机里的劳力士*](./crazy-android/clock_test)
+  * ImageView及其子类
+    * [*图片浏览器*](./crazy-android/img_browse)
+    * [*强大的图片按钮*](./crazy-android/img_button)
+  * AdapterView及其子类
+    * Adapter接口及实现类-[*使用ArrayAdapter创建ListView*](./crazy-android/simple_adapter)，[*扩展BaseAdapter实现不存储列表项的ListView*](./crazy-android/base_adapter)
+    * 网格视图(GridView)的功能与用法-[*带预览的图片浏览器*](./crazy-android/grid_view)
+    * Spinner的功能与用法-[*让用户选择*](./crazy-android/spinner)
+    * AdapterViewFlipper的功能与用法-[*自动播放的图片库*](./crazy-android/adapter_view_flipper)
+  * ProgressBar及其子类
+    * 进度条(ProgressBar)的功能与用法-[*显示在标题上的进度条*](./crazy-android/title_progress_bar)
+    * 拖动条(SeekBar)的功能与用法-[*通过拖动滑块来改变图片的透明度*](./crazy-android/seek_bar)
+  * ViewAnimator及其子类
+    * ViewSwitcher的功能与用法-[*仿Android系统Launcher界面*](./crazy-android/view_switcher)
+  * 对话框
+* 事件处理
+  * 基于回掉的事件处理
+    * 重写OnTouchEvent方法响应触摸屏事件-[*通过回掉实现跟随手指的小球*](./crazy-android/custom_view)
+  * Handler消息传递机制
+    * Handler,Loop,MessageQueue的工作原理-[*使用新线程计算质数*](./crazy-android/cal_prime)
+  * 异步任务
+    * [*使用异步任务执行下载*](./crazy-android/async_task)
+* 深入理解Activity与Fragment
+  * 建立、配置和使用Activity
+    * Activity-[*用LauncherActivity开发启动Activity的列表*](./crazy-android/other_activity)
+    * 使用Bundle在Activity之间交换数据-[*用第二个Activity处理注册信息*](./crazy-android/bundle_activity)
+    * 启动其它Activity并返回结果-[*用第二个Acitivity让用户选择信息*](./crazy-android/activity_for_result)
+  * Fragment详解
+    * 创建Fragment-[*开发显示图书详情的Fragment*](./crazy-android/fragment)
+* 使用Intent和IntentFilter进行通信
+  * Intent的属性及intent-filter配置
+    * 指定Action、Category调用系统Activity-[*查看并获取联系人电话*](./crazy-android/sys_action)
+    * Data、Type属性与intent-filter配置-[*使用Action、Data属性启动系统Activity*](./crazy-android/action_data)
+* Android应用的资源
+  * 使用Drawable资源
+    * StateListDrawable资源-[*高亮显示正在输入的文本框*](./crazy-android/state_list_drawable)
+    * LayerDrawable资源-[*定制拖动条的外观*](./crazy-android/layer_drawable)
+    * ClipDrawable资源-[*徐徐展开的风景*](./crazy-android/clip_drawable)
+  * 属性动画(Property Animation)资源
+    * [*不断渐变的背景色*](./crazy-android/animator)
+* 图形与图像处理
+  * 绘图
+    * 绘制游戏动画-[*采用双缓冲实现画图板*](./crazy-android/hand_draw)，[*弹球游戏*](./crazy-android/pinball)
+  * 图形特效处理
+    * 使用Matrix控制变换-[*移动游戏背景*](./crazy-android/move_back)
+    * 使用DrawBitMapMesh扭曲图像-[*可揉动的图片*](./crazy-android/mesh)
+  * 逐帧动画
+    * AnimationDrawable与逐帧动画-[*在指定点爆炸*](./crazy-android/blast)
+  * 补间动画
+    * 位置、大小、旋转度、透明度改变的补间动画-[*蝴蝶飞舞*](./crazy-android/butterfly)
+  * 属性动画
+    * [*大珠小珠落玉盘*](./crazy-android/bouncing_ball)
+  * 使用SurfaceView实现动画
+    * SurfaceView的绘图机制-[*基于SurfaceView的示波器*](./crazy-android/show_wave)
+* Android数据存储与I/O
+  * 使用SharedPreferences
+    * SharedPreferences的存储位置和格式-[*记录应用程序的使用次数*](./crazy-android/use_count)
+  * SQLite数据库
+    * SQLiteOpenHelper类-[*英文生词本*](./crazy-android/dict)
+  * 手势
+    * 手势检测-[*通过手势缩放图片*](./crazy-android/gesture_zoom)
+* ContentProvider实现数据共享
+  * 开发ContentProvider
+    * [*使用ContentProvider共享生词本数据*](./crazy-android/dict_provider)
+* Service与BroadCastReceiver
+  * 手机闹钟服务(AlarmManager)
+    * 设置闹钟-[*定时更换壁纸*](./crazy-android/alarm_change_wallpaper)
+  * 接受系统广播消息
+    * [*短信提醒*](./crazy-android/monitor_sms)
+* 多媒体应用开发
+  * 控制摄像头拍照
+    * 使用Android5.0的Camera v2拍照-[*拍照时自动对焦*](./crazy-android/camera_v2)
+* Android网络应用
+  * 使用HTTP访问网络
+    * 使用Apache HttpClient-[*访问被保护资源*](./crazy-android/httpclient)
+* 传感器应用开发
+  * 传感器应用案例
+    * [*指南针*](./crazy-android/compass)
+* 综合开发-[*合金弹头*](./crazy-android/metal_slug)
+    

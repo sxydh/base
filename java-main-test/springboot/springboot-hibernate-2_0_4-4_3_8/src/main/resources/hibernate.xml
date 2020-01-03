@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/tx   
+    http://www.springframework.org/schema/tx/spring-tx.xsd  
+    http://www.springframework.org/schema/aop   
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/task 
+    http://www.springframework.org/schema/task/spring-task.xsd">
+    <bean
+        id="dataSource"
+        class="com.alibaba.druid.pool.DruidDataSource"
+        init-method="init"
+        destroy-method="close">
+        <property
+            name="url"
+            value="${druid.url}" />
+        <property
+            name="username"
+            value="${druid.username}" />
+        <property
+            name="password"
+            value="${druid.password}" />
+        <property
+            name="filters"
+            value="stat" />
+        <property
+            name="maxActive"
+            value="20" />
+        <property
+            name="initialSize"
+            value="1" />
+        <property
+            name="maxWait"
+            value="60000" />
+        <property
+            name="minIdle"
+            value="1" />
+        <property
+            name="timeBetweenEvictionRunsMillis"
+            value="60000" />
+        <property
+            name="minEvictableIdleTimeMillis"
+            value="30000" />
+        <property
+            name="testWhileIdle"
+            value="true" />
+        <property
+            name="testOnBorrow"
+            value="false" />
+        <property
+            name="testOnReturn"
+            value="false" />
+        <property
+            name="poolPreparedStatements"
+            value="true" />
+        <property
+            name="maxOpenPreparedStatements"
+            value="20" />
+        <property
+            name="asyncInit"
+            value="true" />
+        <property
+            name="validationQuery"
+            value="SELECT 1 FROM DUAL"></property>
+    </bean>
+    <bean
+        id="sessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+        p:dataSource-ref="dataSource">
+        <property name="packagesToScan">
+            <list>
+                <value>fun.ehe.bean</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.query.substitutions">1</prop>
+                <prop key="hibernate.default_batch_fetch_size">16</prop>
+                <prop key="hibernate.max_fetch_depth">2</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
+                <prop key="hibernate.connection.release_mode">after_transaction</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">/ehcache.hibernate.xml</prop>
+                <prop key="hibernate.cache.use_structured_entries">true</prop>
+            </props>
+        </property>
+    </bean>
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <aop:aspectj-autoproxy expose-proxy="true" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <bean
+        id="transactionManager"
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+        p:sessionFactory-ref="sessionFactory" />
+    <tx:advice
+        id="txAdvice"
+        transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method
+                name="save*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="add*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="create*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="insert*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="update*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="merge*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="del*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="remove*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="put*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="use*"
+                propagation="REQUIRED" />
+            <tx:method
+                name="get*"
+                propagation="REQUIRED"
+                read-only="true" />
+            <tx:method
+                name="count*"
+                propagation="REQUIRED"
+                read-only="true" />
+            <tx:method
+                name="find*"
+                propagation="REQUIRED"
+                read-only="true" />
+            <tx:method
+                name="list*"
+                propagation="REQUIRED"
+                read-only="true" />
+            <tx:method
+                name="*"
+                read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:config expose-proxy="true">
+        <aop:pointcut
+            id="txPointcut"
+            expression="within(fun.ehe.service..*)" />
+        <aop:advisor
+            advice-ref="txAdvice"
+            pointcut-ref="txPointcut" />
+    </aop:config>
+</beans>

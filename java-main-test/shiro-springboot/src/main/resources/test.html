@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <input
+        type="button"
+        value="Login"
+        onclick="login()" />
+    <div></div>
+    <input
+        id="token"
+        type="text" />
+    <div></div>
+    <input
+        type="button"
+        value="Authentication info get"
+        onclick="authenticationInfo()" />
+    <div></div>
+    <input
+        type="button"
+        value="protected resources get"
+        onclick="protectedResources()" />
+    <div></div>
+    <input
+        type="button"
+        value="Authorization info get"
+        onclick="authorizationInfo()" />
+    <div></div>
+    <input
+        type="button"
+        value="Permission info get"
+        onclick="permissionInfo()" />
+</body>
+<script
+    type="text/javascript"
+    src="jquery-3.3.1.js"></script>
+<script
+    type="text/javascript"
+    src="jquery.serializejson.js"></script>
+<script type="text/javascript">
+    function login() {
+        $.ajax({
+            url : "http://127.0.0.1:8080/login",
+            type : "POST",
+            data : "{\"username\":\"danny\", \"password\":\"danny123\"}",
+            async : true,
+            contentType : "application/json",
+            success : function(suc) {
+                console.log(suc);
+                $("#token").val(suc.data);
+            },
+            error : function(error) {
+                console.log(error);
+            }
+        })
+    }
+    function authenticationInfo() {
+        $.ajax({
+            url : "http://127.0.0.1:8080/autheInfo/get",
+            type : "GET",
+            async : true,
+            beforeSend : function(request) {
+                request.setRequestHeader("Authentication", $("#token").val());
+            },
+            success : function(suc) {
+                console.log(suc);
+            },
+            error : function(error) {
+                console.log(error);
+            }
+        })
+    }
+    function protectedResources() {
+        $.ajax({
+            url : "http://127.0.0.1:8080/protected_resource/get",
+            type : "GET",
+            async : true,
+            beforeSend : function(request) {
+                request.setRequestHeader("Authentication", $("#token").val());
+            },
+            success : function(suc) {
+                console.log(suc);
+            },
+            error : function(error) {
+                console.log(error);
+            }
+        })
+    }
+    function authorizationInfo() {
+        $.ajax({
+            url : "http://127.0.0.1:8080/authoInfo/get",
+            type : "GET",
+            async : true,
+            beforeSend : function(request) {
+                request.setRequestHeader("Authentication", $("#token").val());
+            },
+            success : function(suc) {
+                console.log(suc);
+            },
+            error : function(error) {
+                console.log(error);
+            }
+        })
+    }
+    function permissionInfo() {
+        $.ajax({
+            url : "http://127.0.0.1:8080/permissionInfo/get",
+            type : "GET",
+            async : true,
+            beforeSend : function(request) {
+                request.setRequestHeader("Authentication", $("#token").val());
+            },
+            success : function(suc) {
+                console.log(suc);
+            },
+            error : function(error) {
+                console.log(error);
+            }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,1 @@
+include ':app', ':intent', ':view_pager', ':bottom_nvavigation_view', ':handler', ':swipe_refresh_layout', ':nested_scroll_view', ':notification', ':nlservice', ':broadcastreceiver', ':application','drawer_layout'

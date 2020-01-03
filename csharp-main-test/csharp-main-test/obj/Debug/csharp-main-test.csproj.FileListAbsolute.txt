@@ -1,0 +1,9 @@
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\bin\Debug\csharp-main-test.exe.config
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\bin\Debug\csharp-main-test.exe
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\bin\Debug\csharp-main-test.pdb
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\obj\Debug\csharp-main-test.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\obj\Debug\csharp-main-test.exe
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\obj\Debug\csharp-main-test.pdb
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\bin\Debug\System.Data.SQLite.dll
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\obj\Debug\csharp-main-test.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\Visual Studio\csharp-main-test\csharp-main-test\obj\Debug\csharp-main-test.csproj.CopyComplete

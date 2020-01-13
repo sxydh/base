@@ -1,1 +1,1 @@
-http\://www.bhe.net.cn/schema/df=cn.net.bhe.spring.framework.tagcustomparse.DfNamespaceHandler
+http\://www.bhe.net.cn/schema/custom=cn.net.bhe.spring.framework.tagcustomparse.MyNamespaceHandler

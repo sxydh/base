@@ -10,7 +10,7 @@ public class App {
 
     @SuppressWarnings("resource")
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("tagcustom.xml");
         SimpleDateFormat format = (SimpleDateFormat) context.getBean("dateFormat");
         System.out.println(format.format(new Date()));
     }

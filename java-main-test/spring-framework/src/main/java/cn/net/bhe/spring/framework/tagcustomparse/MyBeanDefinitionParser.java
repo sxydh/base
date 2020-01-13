@@ -1,16 +1,18 @@
 package cn.net.bhe.spring.framework.tagcustomparse;
 
-import java.text.SimpleDateFormat;
-
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
-public class DfBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class MyBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
     protected Class<?> getBeanClass(Element element) {
-        return SimpleDateFormat.class;
+        try {
+            return Class.forName(element.getAttribute("class"));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected void doParse(Element element, BeanDefinitionBuilder builder) {

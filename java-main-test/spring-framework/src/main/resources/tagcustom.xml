@@ -9,7 +9,7 @@
         http://www.bhe.net.cn/schema/custom.xsd">
     <mytag:mybean
         id="dateFormat"
-        class = "java.text.SimpleDateFormat"
+        class="java.text.SimpleDateFormat"
         pattern="yyyy-MM-dd HH:mm"
         lenient="true" />
 </beans>

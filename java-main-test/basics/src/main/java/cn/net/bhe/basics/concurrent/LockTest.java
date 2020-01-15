@@ -19,103 +19,87 @@ import java.util.function.Function;
  * instances will be locked for other threads.
  * <p>
  * No method or code block lock.
+ * <p>
+ * 锁一致时才会产生等待
  */
+@SuppressWarnings("static-access")
 public class LockTest {
 
     public static void
-    lockClass()  // 类锁，只有一个，有锁竞争时都需要等待，即使是不同的 synchronized method
-    // main(String[] args)
+    // lockClass()  // 类锁，只有一个，static method 有 synchronized 的都需要类锁
+    main(String[] args)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Task.random();
+                Task.random(); // 需要类锁
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Task.maxInt();
+                Task.maxInt(); // 需要类锁
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Task.uuid(true); // 块级锁，不需要类锁，不等待
+                new Task().random(); // 需要类锁
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.uuid(true); // 需要 target1 锁
+            }
+        }).start();
+    }
+    
+    public static void
+    lockObject()  // 对象锁，不同对象不同的锁
+    // main(String[] args)
+    {
+        Task task = new Task();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.now(); // 需要对象锁
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.maxDouble(); // 需要对象锁
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new Task().now(); // 需要对象锁
             }
         }).start();
     }
     
     public static void 
-    lockStaticBlock() // 类块级锁，目标一致时才会产生竞争，避免不必要的等待
+    lockTarget() // 块级锁，目标一致时才会产生等待
     // main(String[] args)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Task.uuid(true);
+                Task.uuid(true); // 需要 target1 锁
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Task.uuid(true); // 等待
+                new Task().zoneId(true); // 需要 target1 锁
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Task.uuid(false); // 不需要锁不等待
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Task.maxLong(true); // 目标不一致不等待
-            }
-        }).start();
-    }
-    
-    public static void
-    lockObject()  // 对象锁，不同对象不同的锁，其它和类锁类似
-    // main(String[] args)
-    {
-        Task task = new Task();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                task.now();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                task.maxDouble();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                task.zoneId(true);
-            }
-        }).start();
-    }
-    
-    public static void
-    // lockObjectBlock()  // 对象块级锁，和类块级锁类似
-    main(String[] args)
-    {
-        Task task = new Task();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                task.zoneId(true);
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                task.zoneId(true);
+                new Task().maxFloat(true); // 需要 target3 锁
             }
         }).start();
     }
@@ -125,8 +109,13 @@ public class LockTest {
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class Task {
     static Integer blockTime = 3000;
-    static Object var = new Object();
+    static Object target1 = new Object();
+    static Object target2 = new Object();
+    Object target3 = new Object();
     
+    /**
+     * Task.class lock
+     */
     static synchronized void random() { 
         System.out.println(
                 "\r\n"
@@ -135,6 +124,9 @@ class Task {
         sleep(blockTime);
     }
     
+    /**
+     * Task.class lock
+     */
     static synchronized void maxInt() {
         System.out.println(
                 "\r\n"
@@ -143,29 +135,10 @@ class Task {
         sleep(blockTime);
     }
     
-    static void maxLong(boolean needLock) {
-        String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
-        Function function = new Function() {
-            @Override
-            public Object apply(Object arg0) {
-                System.out.println(
-                        "\r\n" 
-                        + Thread.currentThread() + ":\r\n"
-                        + mname + " -> " + Long.MAX_VALUE);
-                return null;
-            }
-        };
-        if (needLock) {
-            synchronized (var) {
-                function.apply(null);
-                sleep(blockTime);
-            } 
-        } else {
-            function.apply(null);
-            sleep(blockTime);
-        }
-    }
-    
+    /**
+     * target1 lock
+     * @param needLock
+     */
     static void uuid(boolean needLock) {
         String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
         Function function = new Function() {
@@ -179,7 +152,7 @@ class Task {
             }
         };
         if (needLock) {
-            synchronized (blockTime) {
+            synchronized (target1) {
                 function.apply(null);
                 sleep(blockTime);
             } 
@@ -189,6 +162,36 @@ class Task {
         }
     }
     
+    /**
+     * target2 lock
+     * @param needLock
+     */
+    static void maxLong(boolean needLock) {
+        String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Function function = new Function() {
+            @Override
+            public Object apply(Object arg0) {
+                System.out.println(
+                        "\r\n" 
+                        + Thread.currentThread() + ":\r\n"
+                        + mname + " -> " + Long.MAX_VALUE);
+                return null;
+            }
+        };
+        if (needLock) {
+            synchronized (target2) {
+                function.apply(null);
+                sleep(blockTime);
+            } 
+        } else {
+            function.apply(null);
+            sleep(blockTime);
+        }
+    }
+    
+    /**
+     * Task object lock
+     */
     synchronized void now() {
         System.out.println(
                 "\r\n" 
@@ -197,6 +200,9 @@ class Task {
         sleep(blockTime);
     }
     
+    /**
+     * Task object lock
+     */
     synchronized void maxDouble() {
         System.out.println(
                 "\r\n" 
@@ -205,6 +211,10 @@ class Task {
         sleep(blockTime);
     }
     
+    /**
+     * target1 lock
+     * @param needLock
+     */
     void zoneId(boolean needLock) {
         String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
         Function function = new Function() {
@@ -218,7 +228,34 @@ class Task {
             }
         };
         if (needLock) {
-            synchronized (blockTime) {
+            synchronized (target1) {
+                function.apply(null);
+                sleep(blockTime);
+            } 
+        } else {
+            function.apply(null);
+            sleep(blockTime);
+        }
+    }
+    
+    /**
+     * target3 lock
+     * @param needLock
+     */
+    void maxFloat(boolean needLock) {
+        String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Function function = new Function() {
+            @Override
+            public Object apply(Object arg0) {
+                System.out.println(
+                        "\r\n" 
+                        + Thread.currentThread() + ":\r\n"
+                        + mname + " -> " + Float.MAX_VALUE);
+                return null;
+            }
+        };
+        if (needLock) {
+            synchronized (target3) {
                 function.apply(null);
                 sleep(blockTime);
             } 

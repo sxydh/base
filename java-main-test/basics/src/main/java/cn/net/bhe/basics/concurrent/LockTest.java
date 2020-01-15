@@ -1,5 +1,10 @@
 package cn.net.bhe.basics.concurrent;
 
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.UUID;
+import java.util.function.Function;
+
 /**
  * <p>
  * Object level lock is mechanism when we want to synchronize a non-static
@@ -17,114 +22,217 @@ package cn.net.bhe.basics.concurrent;
  */
 public class LockTest {
 
-    public static void main(String[] args) {
-        A a = new A();
-        A b = new A();
-
-        Thread t1 = new Thread(a);
-        t1.setName("t1");
-        Thread t2 = new Thread(a);
-        t2.setName("t2");
-        Thread t3 = new Thread(b);
-        t3.setName("t3");
-        Thread t4 = new Thread(b);
-        t4.setName("t4");
-
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
+    public static void
+    lockClass()  // 类锁，只有一个，有锁竞争时都需要等待，即使是不同的 synchronized method
+    // main(String[] args)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.random();
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.maxInt();
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.uuid(true); // 块级锁，不需要类锁，不等待
+            }
+        }).start();
     }
+    
+    public static void 
+    lockStaticBlock() // 类块级锁，目标一致时才会产生竞争，避免不必要的等待
+    // main(String[] args)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.uuid(true);
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.uuid(true); // 等待
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.uuid(false); // 不需要锁不等待
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Task.maxLong(true); // 目标不一致不等待
+            }
+        }).start();
+    }
+    
+    public static void
+    lockObject()  // 对象锁，不同对象不同的锁，其它和类锁类似
+    // main(String[] args)
+    {
+        Task task = new Task();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.now();
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.maxDouble();
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.zoneId(true);
+            }
+        }).start();
+    }
+    
+    public static void
+    // lockObjectBlock()  // 对象块级锁，和类块级锁类似
+    main(String[] args)
+    {
+        Task task = new Task();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.zoneId(true);
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task.zoneId(true);
+            }
+        }).start();
+    }
+    
 }
 
-class A implements Runnable {
-    static int i = 0;
-    static double j = 0.01;
-
-    /*Object lock*/
-    synchronized void synPrintI() {
-        i++;
-        System.err.println(i + ", " + Thread.currentThread().getName());
+@SuppressWarnings({ "rawtypes", "unchecked" })
+class Task {
+    static Integer blockTime = 3000;
+    static Object var = new Object();
+    
+    static synchronized void random() { 
+        System.out.println(
+                "\r\n"
+                + Thread.currentThread() + ":\r\n"
+                + Thread.currentThread().getStackTrace()[1].getMethodName() + " -> " + Math.random());
+        sleep(blockTime);
+    }
+    
+    static synchronized void maxInt() {
+        System.out.println(
+                "\r\n"
+                + Thread.currentThread() + ":\r\n"
+                + Thread.currentThread().getStackTrace()[1].getMethodName() + " -> " + Integer.MAX_VALUE);
+        sleep(blockTime);
+    }
+    
+    static void maxLong(boolean needLock) {
+        String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Function function = new Function() {
+            @Override
+            public Object apply(Object arg0) {
+                System.out.println(
+                        "\r\n" 
+                        + Thread.currentThread() + ":\r\n"
+                        + mname + " -> " + Long.MAX_VALUE);
+                return null;
+            }
+        };
+        if (needLock) {
+            synchronized (var) {
+                function.apply(null);
+                sleep(blockTime);
+            } 
+        } else {
+            function.apply(null);
+            sleep(blockTime);
+        }
+    }
+    
+    static void uuid(boolean needLock) {
+        String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Function function = new Function() {
+            @Override
+            public Object apply(Object arg0) {
+                System.out.println(
+                        "\r\n" 
+                        + Thread.currentThread() + ":\r\n"
+                        + mname + " -> " + UUID.randomUUID());
+                return null;
+            }
+        };
+        if (needLock) {
+            synchronized (blockTime) {
+                function.apply(null);
+                sleep(blockTime);
+            } 
+        } else {
+            function.apply(null);
+            sleep(blockTime);
+        }
+    }
+    
+    synchronized void now() {
+        System.out.println(
+                "\r\n" 
+                + Thread.currentThread() + ":\r\n"
+                + Thread.currentThread().getStackTrace()[1].getMethodName() + " -> " + new Date());
+        sleep(blockTime);
+    }
+    
+    synchronized void maxDouble() {
+        System.out.println(
+                "\r\n" 
+                + Thread.currentThread() + ":\r\n"
+                + Thread.currentThread().getStackTrace()[1].getMethodName() + " -> " + Double.MAX_VALUE);
+        sleep(blockTime);
+    }
+    
+    void zoneId(boolean needLock) {
+        String mname = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Function function = new Function() {
+            @Override
+            public Object apply(Object arg0) {
+                System.out.println(
+                        "\r\n" 
+                        + Thread.currentThread() + ":\r\n"
+                        + mname + " -> " + ZoneId.systemDefault());
+                return null;
+            }
+        };
+        if (needLock) {
+            synchronized (blockTime) {
+                function.apply(null);
+                sleep(blockTime);
+            } 
+        } else {
+            function.apply(null);
+            sleep(blockTime);
+        }
+    }
+    
+    static void sleep(long blockTime) {
         try {
-            Thread.sleep(5 * 1000);
+            Thread.sleep(blockTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    /*Object lock*/
-    void synCodeBlockPrintI() {
-        synchronized (this) {
-            i++;
-            System.err.println(i + ", " + Thread.currentThread().getName());
-            try {
-                Thread.sleep(5 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    void printI() {
-        System.err.println(i + ", " + Thread.currentThread().getName());
-        i++;
-    }
-
-    /*Object lock*/
-    synchronized void synPrintJ() {
-        System.err.println(j + ", " + Thread.currentThread().getName());
-        j = j + 0.01;
-    }
-
-    void printj() {
-        System.err.println(j + ", " + Thread.currentThread().getName());
-        j = j + 0.01;
-    }
-
-    /*Class lock*/
-    static synchronized void synClassPrintI() {
-        i++;
-        System.err.println(Thread.currentThread().getStackTrace()[1].getMethodName() + ", " + i + ", " + Thread.currentThread().getName());
-        try {
-            Thread.sleep(5 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*Class lock*/
-    static void synClassCodeBlockPrintI() {
-        synchronized (LockTest.class) {
-            i++;
-            System.err.println(Thread.currentThread().getStackTrace()[1].getMethodName() + ", " + i + ", " + Thread.currentThread().getName());
-            try {
-                Thread.sleep(5 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /*Class lock*/
-    static synchronized void synClassPrintJ() {
-        System.err.println(Thread.currentThread().getStackTrace()[1].getMethodName() + ", " + j + ", " + Thread.currentThread().getName());
-        j = j + 0.01;
-    }
-
-    @Override
-    public void run() {
-        /*Object lock test*/
-        /*
-        if (i == 0) {
-            synPrintI();
-        }
-        synPrintJ();
-        */
-
-        /*Class lock test*/
-        if (i == 0) {
-            synClassPrintI();
-        }
-        synClassPrintJ();
     }
 }

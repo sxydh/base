@@ -26,8 +26,8 @@ import java.util.function.Function;
 public class LockTest {
 
     public static void
-    // lockClass()  // 类锁，只有一个，static method 有 synchronized 的都需要类锁
-    main(String[] args)
+    lockClass()  // 类锁，只有一个，static method 有 synchronized 的都需要类锁
+    // main(String[] args)
     {
         new Thread(new Runnable() {
             @Override
@@ -81,8 +81,8 @@ public class LockTest {
     }
     
     public static void 
-    lockTarget() // 块级锁，目标一致时才会产生等待
-    // main(String[] args)
+    // lockTarget() // 块级锁，作用域内才会持有，作用域外会释放，且目标一致时才会产生等待
+    main(String[] args)
     {
         new Thread(new Runnable() {
             @Override

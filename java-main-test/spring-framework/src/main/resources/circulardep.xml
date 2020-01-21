@@ -22,14 +22,16 @@
        ">
     <bean
         id="testA"
-        class="cn.net.bhe.spring.framework.circulardep.TestA">
+        class="cn.net.bhe.spring.framework.circulardep.TestA"
+        depends-on="testB">
         <constructor-arg
             name="testB"
             ref="testB" />
     </bean>
     <bean
         id="testB"
-        class="cn.net.bhe.spring.framework.circulardep.TestB">
+        class="cn.net.bhe.spring.framework.circulardep.TestB"
+        depends-on="testA">
         <constructor-arg
             name="testA"
             ref="testA" />

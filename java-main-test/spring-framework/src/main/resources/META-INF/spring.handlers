@@ -1,1 +1,1 @@
-http\://www.bhe.net.cn/schema/custom=cn.net.bhe.spring.framework.tagcustomparse.MyNamespaceHandler
+http\://www.bhe.net.cn/schema/tagcustom=cn.net.bhe.spring.framework.tagcustomparse.MyNamespaceHandler

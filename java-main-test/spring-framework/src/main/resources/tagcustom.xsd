@@ -2,7 +2,7 @@
 <xsd:schema
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:beans="http://www.springframework.org/schema/beans"
-    targetNamespace="http://www.bhe.net.cn/schema/custom"
+    targetNamespace="http://www.bhe.net.cn/schema/tagcustom"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified">
     <xsd:import namespace="http://www.springframework.org/schema/beans" />

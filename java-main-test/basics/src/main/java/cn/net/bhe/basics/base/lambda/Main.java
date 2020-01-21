@@ -2,24 +2,24 @@ package cn.net.bhe.basics.base.lambda;
 
 public class Main {
 
-    public static void main(String[] args) {
-        simplifiedAnonymous("anonymous");
-    }
-
     /**
      * 用途一
      * 简化匿名类书写，但匿名类继承的接口必须带@FunctionalInterface
      */
-    public static void simplifiedAnonymous(String arg) {
+    public static void
+    // simplifiedAnonymous() 
+    main(String[] args)
+    {
         FunctionalInterfac func = string -> System.out.println(string);
         /* 以上相当于
-         * new FunctionalInterfac() {
+        new FunctionalInterfac() {
             @Override
             public void method(String arg) {
                 System.out.println(arg);
             }
-        }; */
-        func.method(arg);
+        };
+        */
+        func.method("anonymous");
     }
 }
 

@@ -2,11 +2,11 @@
 <beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:mytag="http://www.bhe.net.cn/schema/custom"
+    xmlns:mytag="http://www.bhe.net.cn/schema/tagcustom"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.bhe.net.cn/schema/custom
-        http://www.bhe.net.cn/schema/custom.xsd">
+        http://www.bhe.net.cn/schema/tagcustom
+        http://www.bhe.net.cn/schema/tagcustom.xsd">
     <mytag:mybean
         id="dateFormat"
         class="java.text.SimpleDateFormat"

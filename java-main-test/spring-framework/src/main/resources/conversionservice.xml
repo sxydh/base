@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd  
+       ">
+    <context:component-scan base-package="cn.net.bhe.spring.framework.*" />
+    <bean class="cn.net.bhe.spring.framework.conversionservice.MyBean">
+        <property
+            name="date"
+            value="2020-03-01 17:37:00"></property>
+    </bean>
+    <bean id="conversionService" class="cn.net.bhe.spring.framework.conversionservice.MyConversionService">
+    </bean>
+</beans>

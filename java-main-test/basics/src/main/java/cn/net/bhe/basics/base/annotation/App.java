@@ -3,7 +3,7 @@ package cn.net.bhe.basics.base.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-public class RunTest {
+public class App {
 
     public static void main(String[] args) throws Exception {
 

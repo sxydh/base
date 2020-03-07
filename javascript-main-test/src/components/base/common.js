@@ -147,6 +147,27 @@ var max = arr.reduce(function(a, b) {
 });
 
 /*
+replace()
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
+The replace() method returns a new string with some or all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp, and the replacement can be a string or a function to be called for each match. If pattern is a string, only the first occurrence will be replaced.
+
+Syntax
+var newStr = str.replace(regexp|substr, newSubstr|function)
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_2
+g	Global search.
+i	Case-insensitive search.
+m	Multi-line search.
+s	Allows . to match newline characters. (Added in ES2018, not yet supported in Firefox).
+u	"unicode"; treat a pattern as a sequence of unicode code points.
+y	Perform a "sticky" search that matches starting at the current position in the target string. See sticky.
+*/
+var re = /apples/gi;
+var str = 'Apples are round, and apples are juicy.';
+var newstr = str.replace(re, 'oranges');
+console.log(newstr);  // oranges are round, and oranges are juicy.
+
+/*
 setInterval
 Ref: https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setInterval
 
@@ -192,3 +213,17 @@ item1, ..., itemX	Optional. The new item(s) to be added to the array
 */
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 fruits.splice(2, 0, "Lemon", "Kiwi");
+
+/*
+trim()
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+The trim() method removes whitespace from both ends of a string. Whitespace in this context is all the whitespace characters (space, tab, no-break space, etc.) and all the line terminator characters (LF, CR, etc.).
+
+Syntax
+str.trim()
+*/
+var orig = '   foo  ';
+console.log(orig.trim()); // 'foo'
+// Another example of .trim() removing whitespace from just one side.
+var orig = 'foo    ';
+console.log(orig.trim()); // 'foo' 

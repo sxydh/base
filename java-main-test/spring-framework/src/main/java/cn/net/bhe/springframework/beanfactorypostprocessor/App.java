@@ -1,4 +1,4 @@
-package cn.net.bhe.spring.framework.conversionservice;
+package cn.net.bhe.springframework.beanfactorypostprocessor;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -6,7 +6,7 @@ public class App {
 
     @SuppressWarnings("resource")
     public static void main(String[] args) {
-        new ClassPathXmlApplicationContext("conversionservice.xml");
+         new ClassPathXmlApplicationContext("beanfactorypostprocessor.xml");
     }
-
+    
 }

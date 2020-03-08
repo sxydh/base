@@ -1,4 +1,4 @@
-package cn.net.bhe.spring.framework.tagcustomparse;
+package cn.net.bhe.springframework.tagcustomparse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

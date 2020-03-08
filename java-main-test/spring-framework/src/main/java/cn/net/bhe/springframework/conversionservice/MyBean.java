@@ -1,4 +1,4 @@
-package cn.net.bhe.spring.framework.conversionservice;
+package cn.net.bhe.springframework.conversionservice;
 
 import java.util.Date;
 

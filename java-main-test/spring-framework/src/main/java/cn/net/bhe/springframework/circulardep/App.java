@@ -1,4 +1,4 @@
-package cn.net.bhe.spring.framework.circulardep;
+package cn.net.bhe.springframework.circulardep;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

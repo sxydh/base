@@ -1,4 +1,4 @@
-package cn.net.bhe.spring.framework.constructor;
+package cn.net.bhe.springframework.constructor;
 
 public class Bean {
 

@@ -1,4 +1,4 @@
-package cn.net.bhe.spring.framework.beanfactorypostprocessor;
+package cn.net.bhe.springframework.beanfactorypostprocessor;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;

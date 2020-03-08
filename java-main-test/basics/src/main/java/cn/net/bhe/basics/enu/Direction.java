@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.base.enu;
+package cn.net.bhe.basics.enu;
 
 /**
  * <p/>

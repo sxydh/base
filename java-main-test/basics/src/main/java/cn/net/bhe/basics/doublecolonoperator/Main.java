@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.base.doublecolonoperator;
+package cn.net.bhe.basics.doublecolonoperator;
 
 import java.util.Arrays;
 import java.util.Date;

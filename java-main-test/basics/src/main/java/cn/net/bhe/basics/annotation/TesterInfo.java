@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.base.annotation;
+package cn.net.bhe.basics.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

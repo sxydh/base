@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.base.dict;
+package cn.net.bhe.basics.dict;
 
 import java.util.HashMap;
 import java.util.Map;

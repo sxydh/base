@@ -1,6 +1,6 @@
-package cn.net.bhe.basics.base.annotation;
+package cn.net.bhe.basics.annotation;
 
-import cn.net.bhe.basics.base.annotation.TesterInfo.Priority;
+import cn.net.bhe.basics.annotation.TesterInfo.Priority;
 
 @TesterInfo(priority = Priority.HIGH, createdBy = "mkyong.com", tags = { "sales", "test" })
 public class TestExample {

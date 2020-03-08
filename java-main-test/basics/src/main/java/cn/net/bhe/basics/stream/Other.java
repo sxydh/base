@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.base.collectors;
+package cn.net.bhe.basics.stream;
 
 import java.util.ArrayList;
 import java.util.Arrays;

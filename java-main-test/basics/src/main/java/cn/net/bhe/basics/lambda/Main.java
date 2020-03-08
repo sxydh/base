@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.base.lambda;
+package cn.net.bhe.basics.lambda;
 
 public class Main {
 

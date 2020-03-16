@@ -1,6 +1,6 @@
 package cn.net.bhe.basics.lambda;
 
-public class Main {
+public class App {
 
     /**
      * 用途一

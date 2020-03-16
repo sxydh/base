@@ -42,6 +42,7 @@ public class HibernateUtils {
             session.close();
         }
         threadLocal.set(null);
+        System.exit(0);
     }
 
 }

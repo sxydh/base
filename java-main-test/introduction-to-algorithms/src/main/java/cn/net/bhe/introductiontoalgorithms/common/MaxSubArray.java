@@ -7,13 +7,13 @@ public class MaxSubArray {
     int dynamicProgramming(int[] nums) // 动态规划
     {
         if (nums.length == 1) return nums[0];
-        int cursum = nums[0];
-        int maxsum = nums[0];
+        int maxSumWithRBorder = nums[0]; // 带右边界的最大子连续和
+        int maxSum = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            cursum = Math.max(nums[i], nums[i] + cursum);
-            maxsum = Math.max(cursum, maxsum);
+            maxSumWithRBorder = Math.max(nums[i], nums[i] + maxSumWithRBorder); // 更新边界最大子连和
+            maxSum = Math.max(maxSumWithRBorder, maxSum); 
         }
-        return maxsum;
+        return maxSum;
     }
     
     public static

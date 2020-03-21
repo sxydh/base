@@ -1,5 +1,8 @@
 package cn.net.bhe.introductiontoalgorithms.common;
 
+/**
+ * 求平方根
+ */
 public class Sqrt {
     
     public static void main(String args[]) {

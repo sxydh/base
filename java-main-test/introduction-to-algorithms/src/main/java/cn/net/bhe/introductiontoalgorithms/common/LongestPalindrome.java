@@ -2,8 +2,14 @@ package cn.net.bhe.introductiontoalgorithms.common;
 
 import java.util.function.Function;
 
+/**
+ * 回文串最大长度
+ */
 public class LongestPalindrome {
     
+    /**
+     * 中心扩展法
+     */
     public static void 
     main(String[] args) 
 //    centerExtend()
@@ -36,6 +42,9 @@ public class LongestPalindrome {
         System.out.println(s.substring(start, end + 1));
     }
     
+    /**
+     * Manacher算法
+     */
     public static void 
 //    main(String[] args)
     manacher()

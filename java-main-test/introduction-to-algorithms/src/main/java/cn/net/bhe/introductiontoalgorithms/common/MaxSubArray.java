@@ -1,7 +1,13 @@
 package cn.net.bhe.introductiontoalgorithms.common;
 
+/**
+ * 最大子连续和
+ */
 public class MaxSubArray {
 
+    /**
+     * 动态规划
+     */
     public static
 //    void main(String[] args)
     int dynamicProgramming(int[] nums) // 动态规划
@@ -16,6 +22,9 @@ public class MaxSubArray {
         return maxSum;
     }
     
+    /**
+     * 分治策略
+     */
     public static
 //    void main(String[] args)
     int divideAndConquer(int[] nums) // 分治策略

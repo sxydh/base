@@ -1,5 +1,8 @@
 package cn.net.bhe.introductiontoalgorithms.common;
 
+/**
+ * 查找只出现一次的数（其它数都出现两次）
+ */
 public class SingleNumber {
 
     public static void main(String[] args) {

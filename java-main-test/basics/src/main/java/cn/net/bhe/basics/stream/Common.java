@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class Common {
     
     /**
-     * 搜索(int array)
+     * int array是否存在某个value
      */
     public static void 
     main(String[] args) 

@@ -1,5 +1,8 @@
 package cn.net.bhe.introductiontoalgorithms.common;
 
+/**
+ * 无重复字符子串的最大长度
+ */
 public class LengthOfLongestSubstring {
 
     public static void main(String[] args) {

@@ -1,28 +1,29 @@
 package cn.net.bhe.introductiontoalgorithms;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 public class Keep {
     
     public static void main(String[] args) {
-        
+        System.out.println(trailingZeroes(10));
     }
     
-    public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode result = null;
-        if (headA.val != headB.val) {
-            result = getIntersectionNode(headA, headB.next);
-            if (result == null) {
-                result = getIntersectionNode(headB, headA.next);
-            }
+    public static int trailingZeroes(int n) {
+        int cnt5 = 0;
+        int cnt2 = 0;
+        while (n > 1) {
+            cnt5 += n / 5;
+            cnt2 += n / 2;
+            n--;
         }
-        return result;
+        return Math.min(cnt2, cnt5);
     }
+    
 }
 
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}

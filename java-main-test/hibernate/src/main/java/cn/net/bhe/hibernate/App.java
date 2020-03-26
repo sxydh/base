@@ -2,7 +2,6 @@ package cn.net.bhe.hibernate;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.net.bhe.hibernate.entity.Test;
-import cn.net.bhe.utils.main.DateUtils;
-import cn.net.bhe.utils.main.IOUtils;
 import cn.net.bhe.utils.main.SerializeUtils;
 
 public class App {
@@ -28,24 +25,8 @@ public class App {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-
-        String data = IOUtils.readerRead("C:/Users/Administrator/Desktop/0.txt");
-        String[] rowsStr = data.split(";");
-        for (String rowStr : rowsStr) {
-            String[] row = rowStr.split(",");
-            int playerId = Integer.parseInt(row[0]);
-            int deviceId = Integer.parseInt(row[1]);
-            Date date = DateUtils.strToDate(row[2]);
-            int mark = Integer.valueOf(row[3]);
-            session.createSQLQuery(" insert into activity (player_id, device_id, event_date, games_played) "
-                    + " values(:playerid, :deviceid, :eventdate, :played) ")
-            .setParameter("playerid", playerId)
-            .setParameter("deviceid", deviceId)
-            .setParameter("eventdate", date)
-            .setParameter("played", mark)
-            .executeUpdate();
-            
-        }
+        
+        
         
         transaction.commit();
         HibernateUtils.closeSession();

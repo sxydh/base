@@ -2,8 +2,6 @@ package cn.net.bhe.introductiontoalgorithms.common;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.net.bhe.introductiontoalgorithms.common.ListNode;
-
 /**
  * 相交链表的交点查找
  */
@@ -54,5 +52,14 @@ public class IntersectionNode {
             }
         }
         return null;
+    }
+    
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
     }
 }

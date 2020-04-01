@@ -82,23 +82,23 @@ public class SortListNode {
         }
         return result;
     }
+    
+    static class ListNode {
+        ListNode head;
+        int val;
+        ListNode next;
 
-}
+        ListNode(int x) {
+            val = x;
+        }
 
-class ListNode {
-    ListNode head;
-    int val;
-    ListNode next;
+        ListNode setNext(int x) {
+            if (this.head == null) { this.head = this; }
+            this.next = new ListNode(x);
+            this.next.head = this.head;
+            return this.next;
+        }
 
-    ListNode(int x) {
-        val = x;
-    }
-
-    ListNode setNext(int x) {
-        if (this.head == null) { this.head = this; }
-        this.next = new ListNode(x);
-        this.next.head = this.head;
-        return this.next;
     }
 
 }

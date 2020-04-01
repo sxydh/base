@@ -34,11 +34,11 @@ public class SortedArrayToBST {
         root.right = doInOrderTraversal(nums, p + 1, right);
         return root;
     }
-}
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
+    
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
 }

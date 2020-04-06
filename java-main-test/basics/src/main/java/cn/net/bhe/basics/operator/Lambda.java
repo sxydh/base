@@ -1,6 +1,6 @@
-package cn.net.bhe.basics.lambda;
+package cn.net.bhe.basics.operator;
 
-public class App {
+public class Lambda {
 
     /**
      * 用途一

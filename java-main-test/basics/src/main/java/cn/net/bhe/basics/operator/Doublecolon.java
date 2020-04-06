@@ -1,4 +1,4 @@
-package cn.net.bhe.basics.doublecolonoperator;
+package cn.net.bhe.basics.operator;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
  * 
  * 一般情况下就是将引用填充到接口的默认方法里面去（接口必须带@FunctionalInterface）
  */
-public class Main {
+public class Doublecolon {
 
     /**
      * Reference A Static Method

@@ -20,7 +20,7 @@ import java.util.function.Function;
  * <p>
  * No method or code block lock.
  * <p>
- * 锁一致时才会产生等待
+ * 锁持有者是线程，不同线程间争用锁一致时才会产生等待，没有方法锁
  */
 @SuppressWarnings("static-access")
 public class LockTest {
@@ -56,8 +56,8 @@ public class LockTest {
     }
     
     public static void
-    lockObject()  // 对象锁，不同对象不同的锁
-    // main(String[] args)
+//    lockObject()  // 对象锁，不同对象不同的锁
+     main(String[] args)
     {
         Task task = new Task();
         new Thread(new Runnable() {
@@ -81,8 +81,8 @@ public class LockTest {
     }
     
     public static void 
-    // lockTarget() // 块级锁，作用域内才会持有，作用域外会释放，且目标一致时才会产生等待
-    main(String[] args)
+     lockTarget() // 块级锁，作用域内才会持有，作用域外会释放，且目标一致时才会产生等待
+//    main(String[] args)
     {
         new Thread(new Runnable() {
             @Override

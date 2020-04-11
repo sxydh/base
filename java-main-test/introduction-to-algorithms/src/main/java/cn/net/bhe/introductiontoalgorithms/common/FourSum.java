@@ -29,8 +29,6 @@ public class FourSum {
             if (maxVal < threeSum) continue;
             for (int j = i + 1; j < nums.length - 2; j++) {
                 if (j > i + 1 && nums[j] == nums[j - 1]) continue;
-                minVal = nums[j] + nums[j + 1] + nums[j + 2];
-//                if (minVal > threeSum) return ans;
                 int l = j + 1;
                 int r = nums.length - 1;
                 while (l < r) {

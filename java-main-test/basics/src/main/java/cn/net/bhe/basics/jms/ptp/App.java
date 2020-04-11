@@ -1,6 +1,8 @@
 package cn.net.bhe.basics.jms.ptp;
 
 /**
+ * JMS has lots of implemention, WebLogic is just one of them.
+ * 
  * Environment: WebLogic 12c, JDK1.8 <br/>
  * Jar: wlthint3client.jar (you can find it in this location: C:/Oracle/Middleware/Oracle_Home/wlserver/server/lib) 
  * <p/>

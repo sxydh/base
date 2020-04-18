@@ -21,6 +21,13 @@
             <systemPath>${basedir}/lib/Oracle 10g 10.2.0.1.0 JDBC_ojdbc14.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>com.weblogic</groupId>
+            <artifactId>wlthint3client</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/wlthint3client.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>cn.net.bhe</groupId>
             <artifactId>utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>

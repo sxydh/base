@@ -1,0 +1,1 @@
+java -jar -Dloader.path="lib/" -Dspring.config.location=file:./application.yml springboot-mybatis.jar

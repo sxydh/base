@@ -121,7 +121,7 @@ public class ThreadTest {
      */
     public static void
 //    main(String[] args)
-    wai()
+    wait()
     {
         // 利用wait()实现特定线程优先执行
         // 其它经典例子https://www.programcreek.com/2009/02/notify-and-wait-example/
@@ -159,7 +159,7 @@ public class ThreadTest {
     }
     
     /**
-     * 某个线程thread1调用了某个对象obj1的notify()时会唤醒任意一个调用了obj1.wait()方法的线程thread2，让thread2得以继续执行（前提是获得了obj1的锁）。<br/>
+     * 某个线程thread1调用了某个对象obj1的notify()时会随机唤醒一个调用了obj1.wait()方法的线程thread2，让thread2得以继续执行（前提是获得了obj1的锁）。<br/>
      * thread1调用obj1的notify()时必须持有obj1的锁。
      * 
      * Wakes up a single thread that is waiting on this object's

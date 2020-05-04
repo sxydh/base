@@ -121,7 +121,7 @@ public class ThreadTest {
      */
     public static void
 //    main(String[] args)
-    wait()
+    wai()
     {
         // 利用wait()实现特定线程优先执行
         // 其它经典例子https://www.programcreek.com/2009/02/notify-and-wait-example/

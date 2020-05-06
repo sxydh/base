@@ -13,6 +13,12 @@ import java.util.List;
  * "312"
  * "321"
  * 给定 n 和 k，返回第 k 个排列。
+ * 
+ * 令nums = [1, 2, ..., n];
+ * 令k = a1(n - 1)! + a2(n - 2)! + ... + an * 0!;
+ * 系数组合为 [a1, a2, ..., an];
+ * 第k个排列应为：nums[a1]nums[a2]...nums[an]，注意nums每取一位之后应移除该位再取下一位。
+ * 
  * @author Administrator
  *
  */

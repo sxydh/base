@@ -1,0 +1,11 @@
+﻿SCP，Service Control Point，业务控制点，https://baike.baidu.com/item/scp/15387923?fr=aladdin
+ISMP，Integrated Services Management Platform，https://wenku.baidu.com/view/c47ca203eff9aef8941e0655.html
+ISMG，Internet Short Message Gateway，互联网短信网关
+DSMP，Data Service Manage Platform，数据业务管理平台
+SMPP，Short Message Peer to Peer，短消息点对点协议
+CMPP，China Mobile Peer to Peer，中国移动点对点协议
+SMSC，Short Message Service Center，短消息中心
+GNS，Gateway Name Server，网关名称服务器（汇接网关）
+GSM，Global System for Mobile Communications，全球移动通信系统
+MSISDN，Mobile Subscriber International ISDN/PSTN number，是指主叫用户为呼叫GSM PLMN中的一个移动用户所需拨的号码，作用同于固定网PSTN号码；是在公共电话网交换网络编号计划中，唯一能识别移动用户的号码
+ISDN，Integrated Service Digital Network，综合业务数字网

@@ -1,6 +1,5 @@
 package cn.net.bhe.hibernate;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,30 +9,28 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.net.bhe.hibernate.entity.Test;
 import cn.net.bhe.utils.main.SerializeUtils;
 
 public class App {
 
     static Logger LOGGER = LoggerFactory.getLogger(App.class);
     
-    public static void main
-    (String[] args) throws Exception {
+    @Test
+    public void keep() {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
         
-        
-        
         transaction.commit();
         HibernateUtils.closeSession();
     }
-
-    public static void passList
-    (String[] args) {
+    
+    @Test
+    public void passList() {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
@@ -45,8 +42,8 @@ public class App {
         LOGGER.info(list.toString());
     }
     
-    public static void passNull
-    (String[] args) {
+    @Test
+    public void passNull() {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
@@ -57,8 +54,8 @@ public class App {
         HibernateUtils.closeSession();
     }
 
-    public static void intOverflow
-    (String[] args) {
+    @Test
+    public void intOverflow() {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
@@ -73,7 +70,7 @@ public class App {
             // entity
             Test test = null;
             try {
-                test = (Test) session.createSQLQuery("SELECT * FROM test WHERE id = :id").addEntity(Test.class)
+                test = (Test) session.createSQLQuery(" SELECT * FROM test WHERE id = :id").addEntity(Test.class)
                         .setInteger("id", i).uniqueResult();
             } catch (Exception e) {
                 System.out.println(e.getLocalizedMessage());
@@ -97,8 +94,8 @@ public class App {
         HibernateUtils.closeSession();
     }
 
-    public static void loopQuery
-    (String[] args) {
+    @Test
+    public void loopQuery() {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
@@ -128,8 +125,8 @@ public class App {
         HibernateUtils.closeSession();
     }
 
-    public static void mapList
-    (String[] args) throws IOException {
+    @Test
+    public void mapList() throws Exception {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
@@ -140,8 +137,8 @@ public class App {
         LOGGER.info(SerializeUtils.toStr(maps));
     }
 
-    public static void list
-    (String[] args) {
+    @Test
+    public void list() {
         Session session = HibernateUtils.currentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();

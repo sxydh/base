@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +41,20 @@ import org.slf4j.LoggerFactory;
 public enum IOUtils {
     ;
     static Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
+    
+    public static void main(String[] args) {
+        
+    }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(IOUtils.readConsole());
+    public static int bytes2int(byte... bytes) {
+        if (bytes.length < 4) {
+            byte[] dest = new byte[4];
+            System.arraycopy(bytes, 0, dest, dest.length - bytes.length, bytes.length);
+            bytes = dest;
+        }
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        int num = byteBuffer.getInt();
+        return num;
     }
     
     public static String getResourcePath(Class<?> clazz, String fileName) {

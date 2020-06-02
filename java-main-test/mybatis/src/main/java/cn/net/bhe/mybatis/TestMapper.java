@@ -9,7 +9,7 @@ public interface TestMapper {
 
     public Map<String, Object> get(int id);
 
-    @Select("SELECT * FROM test ")
+    @Select(" <script> SELECT * FROM test </script> ")
     public List<Map<String, Object>> list();
 
 }

@@ -9,7 +9,7 @@ public interface TestMapper {
 
     public Map<String, Object> get(int id);
 
-    @Select(" <script> SELECT * FROM test </script> ")
+    @Select("<script> select t.* from test t </script>") // 注意mybatis3.2.2版本<script>前面不能有空格
     public List<Map<String, Object>> list();
 
 }

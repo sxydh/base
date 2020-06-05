@@ -5,18 +5,24 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +31,21 @@ import org.slf4j.LoggerFactory;
  */
 public class POIUtils {
     static Logger log = LoggerFactory.getLogger(POIUtils.class);
+    
+    @Test
+    public void test() {
+        @SuppressWarnings("unused")
+        class Bean {
+            String aaaaaaaaaaaaaaaaaaaa = "1";
+            String bbb = "2";
+        }
+        List<Bean> list = new ArrayList<Bean>();
+        list.add(new Bean());
+        list.add(new Bean());
+        HSSFWorkbook workbook = listToWorkbookWithVMerge(null, list);
+        writeWorkbookToFile("C:\\Users\\Administrator\\Desktop\\" + new Random().nextInt() + ".xls", workbook);
+        log.info("成功");
+    }
     
     /**
      * 替换内容
@@ -92,10 +113,9 @@ public class POIUtils {
      * 
      * @param colHeads
      * @param list
-     * @param hiddenCols
      * @return
      */
-    public static HSSFWorkbook listToWorkbookWithVMerge(String[] colHeads, List<?> list, int[] hiddenCols) {
+    public static HSSFWorkbook listToWorkbookWithVMerge(String[] colHeads, List<?> list) {
         if (list == null || list.size() == 0) return null;
         List<List<String[]>> data = new ArrayList<List<String[]>>();
         try {
@@ -121,30 +141,34 @@ public class POIUtils {
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet();
             
-            CellStyle alignStyle;
-            CellStyle wrapText;
-            CellStyle backgroundStyle;
-            CellStyle fontStyle;
-
             // 创建标题行
-            wrapText = workbook.createCellStyle();
-            wrapText.setWrapText(true);
-            backgroundStyle = workbook.createCellStyle();
-            backgroundStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            backgroundStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            fontStyle = workbook.createCellStyle();
+            
+            CellStyle cellStyle = workbook.createCellStyle();
+            cellStyle.setWrapText(true);
+            
+            cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index);
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            
             HSSFFont font = workbook.createFont();
             font.setFontName("黑体");
-            font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+            font.setBold(true);
             font.setFontHeightInPoints((short) 16);
-            fontStyle.setFont(font);
+            cellStyle.setFont(font);
+            
+            cellStyle.setVerticalAlignment(VerticalAlignment.TOP);
+            
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            
             HSSFRow headRow = sheet.createRow(0);
             for (int i = 0; i < colHeads.length; i++) {
                 HSSFCell cell = headRow.createCell(i);
                 cell.setCellType(CellType.STRING);
                 cell.setCellValue(colHeads[i]);
-                cell.setCellStyle(backgroundStyle);
-                cell.setCellStyle(boldFontStyle);
+                
+                cell.setCellStyle(cellStyle); 
             }
             
             // 预生成所有行列
@@ -159,8 +183,15 @@ public class POIUtils {
             }
 
             // 纵向填充，合并单元格
-            alignStyle = workbook.createCellStyle();
-            alignStyle.setVerticalAlignment((short) 1);
+            
+            cellStyle = workbook.createCellStyle();
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            
             for (int vi = 0; vi < colHeads.length; vi++) {
                 int mergeVStart = 1; // 纵向合并起始
                 int mergeVEnd = mergeVStart; // 纵向合并结束
@@ -170,8 +201,8 @@ public class POIUtils {
                     String[] fv = data.get(hi).get(vi);
                     HSSFRow dataRow = dataRows.get(hi);
                     HSSFCell cell = dataRow.getCell(vi);
+                    cell.setCellStyle(cellStyle);
                     cell.setCellValue(fv[1]);
-                    cell.setCellStyle(alignStyle);
                     
                     if (StringUtils.isEmpty(preKey)) {
                         preKey = fv[0];
@@ -190,11 +221,6 @@ public class POIUtils {
                 }
             }
             
-            if (hiddenCols != null) {
-                for (int i : hiddenCols) {
-                    sheet.setColumnHidden(i, true);
-                }
-            }
             return workbook;
         } catch (Exception e) {
             throw new RuntimeException(e);

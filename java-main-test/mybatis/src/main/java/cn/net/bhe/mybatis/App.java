@@ -1,14 +1,15 @@
 package cn.net.bhe.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
+import org.junit.jupiter.api.Test;
 
 public class App {
-
-    public static void main(String[] args) {
-        list();
-    }
-
-    public static void test() {
+    
+    /**
+     * xml形式
+     */
+    @Test
+    public void get() {
         SqlSession session = Config.getSqlSessionFactory().openSession();
         try {
             TestMapper mapper = session.getMapper(TestMapper.class);
@@ -20,7 +21,11 @@ public class App {
         }
     }
 
-    public static void list() {
+    /**
+     * 注解形式
+     */
+    @Test
+    public void list() {
         SqlSession session = Config.getSqlSessionFactory().openSession();
         try {
             TestMapper mapper = session.getMapper(TestMapper.class);

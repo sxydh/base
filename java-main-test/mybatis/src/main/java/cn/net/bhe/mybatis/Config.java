@@ -17,6 +17,7 @@ public enum Config {
         try {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            sqlSessionFactory.getConfiguration().addMappers("cn.net.bhe.mybatis.mapper"); // 不在根包下的mapper需要指明
         } catch (IOException e) {
             e.printStackTrace();
         }

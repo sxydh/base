@@ -27,14 +27,15 @@ public class POIUtils {
     static Logger log = LoggerFactory.getLogger(POIUtils.class);
     
     /**
-     * 替换内容，只替换第一个表格
+     * 替换内容
      * 
      * @param workbook
+     * @param sheetIndex
      * @param orig
      * @param dest
      */
-    public static void replaceCellContent(HSSFWorkbook workbook, List<String> orig, List<String> dest) {
-        Iterator<Row> rows = workbook.getSheetAt(0).iterator();
+    public static void replaceCellContent(HSSFWorkbook workbook, int sheetIndex, List<String> orig, List<String> dest) {
+        Iterator<Row> rows = workbook.getSheetAt(sheetIndex).iterator();
         while(rows.hasNext()) {
             Row row = rows.next();
             Iterator<Cell> cells = row.iterator();
@@ -119,15 +120,31 @@ public class POIUtils {
             
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet();
-            CellStyle vAlignCenter = workbook.createCellStyle();
-            vAlignCenter.setVerticalAlignment(VerticalAlignment.CENTER);
+            
+            CellStyle alignStyle;
+            CellStyle wrapText;
+            CellStyle backgroundStyle;
+            CellStyle fontStyle;
 
             // 创建标题行
+            wrapText = workbook.createCellStyle();
+            wrapText.setWrapText(true);
+            backgroundStyle = workbook.createCellStyle();
+            backgroundStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            backgroundStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            fontStyle = workbook.createCellStyle();
+            HSSFFont font = workbook.createFont();
+            font.setFontName("黑体");
+            font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+            font.setFontHeightInPoints((short) 16);
+            fontStyle.setFont(font);
             HSSFRow headRow = sheet.createRow(0);
             for (int i = 0; i < colHeads.length; i++) {
                 HSSFCell cell = headRow.createCell(i);
                 cell.setCellType(CellType.STRING);
                 cell.setCellValue(colHeads[i]);
+                cell.setCellStyle(backgroundStyle);
+                cell.setCellStyle(boldFontStyle);
             }
             
             // 预生成所有行列
@@ -142,6 +159,8 @@ public class POIUtils {
             }
 
             // 纵向填充，合并单元格
+            alignStyle = workbook.createCellStyle();
+            alignStyle.setVerticalAlignment((short) 1);
             for (int vi = 0; vi < colHeads.length; vi++) {
                 int mergeVStart = 1; // 纵向合并起始
                 int mergeVEnd = mergeVStart; // 纵向合并结束
@@ -152,7 +171,7 @@ public class POIUtils {
                     HSSFRow dataRow = dataRows.get(hi);
                     HSSFCell cell = dataRow.getCell(vi);
                     cell.setCellValue(fv[1]);
-                    cell.setCellStyle(vAlignCenter);
+                    cell.setCellStyle(alignStyle);
                     
                     if (StringUtils.isEmpty(preKey)) {
                         preKey = fv[0];

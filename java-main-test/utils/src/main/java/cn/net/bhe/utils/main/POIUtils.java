@@ -298,5 +298,12 @@ public class POIUtils {
             throw new RuntimeException(e);
         }
     }
+    
+    public static void setColWidth(HSSFWorkbook workbook, int sheetIndex, int[] colIndexs, int[] widths) {
+        HSSFSheet sheet = workbook.getSheetAt(sheetIndex);
+        for(int i = 0; i < colIndexs.length; i++) {
+            sheet.setColumnWidth(colIndexs[i], widths[i]);
+        }
+    }
 
 }

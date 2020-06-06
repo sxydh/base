@@ -1,13 +1,22 @@
 package cn.net.bhe.utils.main;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.converter.ExcelToHtmlConverter;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -25,6 +34,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 /**
  * 对Microsoft Office格式文件读和写的功能。
@@ -33,7 +43,7 @@ public class POIUtils {
     static Logger log = LoggerFactory.getLogger(POIUtils.class);
     
     @Test
-    public void test() {
+    public void test() throws Exception {
         @SuppressWarnings("unused")
         class Bean {
             String aaaaaaaaaaaaaaaaaaaa = "1";
@@ -43,8 +53,35 @@ public class POIUtils {
         list.add(new Bean());
         list.add(new Bean());
         HSSFWorkbook workbook = listToWorkbookWithVMerge(null, list);
-        writeWorkbookToFile("C:\\Users\\Administrator\\Desktop\\" + new Random().nextInt() + ".xls", workbook);
-        log.info("成功");
+        
+        log.info(workbookToHtml(workbook));
+//        writeWorkbookToFile("C:\\Users\\Administrator\\Desktop\\test.xls", workbook);
+    }
+    
+    public static String workbookToHtml(HSSFWorkbook workbook) throws Exception {
+        ExcelToHtmlConverter converter = new ExcelToHtmlConverter(DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument());
+       
+        converter.setOutputColumnHeaders(false); // 去掉Excel头行
+        converter.setOutputRowNumbers(false); // 去掉Excel行号
+        
+        converter.processWorkbook(workbook);
+        
+        Document htmlDoc = converter.getDocument();
+        DOMSource domSource = new DOMSource(htmlDoc);
+        
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        StreamResult streamResult = new StreamResult(out);
+        
+        TransformerFactory transfFactory = TransformerFactory.newInstance();
+        Transformer serializer = transfFactory.newTransformer();
+        serializer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+        serializer.setOutputProperty(OutputKeys.METHOD, "html");
+        serializer.transform(domSource, streamResult);
+        
+        out.close();
+        
+        return new String(out.toByteArray());
     }
     
     /**

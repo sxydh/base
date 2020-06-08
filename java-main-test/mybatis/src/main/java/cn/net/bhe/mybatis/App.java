@@ -2,8 +2,23 @@ package cn.net.bhe.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class App {
+    static Logger log = LoggerFactory.getLogger(App.class);
+    
+    @Test
+    public void test() {
+        SqlSession session = Config.getSqlSessionFactory().openSession();
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
     
     /**
      * xml形式

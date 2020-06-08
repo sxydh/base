@@ -1,18 +1,18 @@
 package cn.net.bhe.basics.jms.ptp;
 
 /**
- * JMS has lots of implemention, WebLogic is just one of them.
+ * WebLogic的消息服务功能是JMS的实现之一。
  * 
- * Environment: WebLogic 12c, JDK1.8 <br/>
- * Jar: wlthint3client.jar (you can find it in this location: C:/Oracle/Middleware/Oracle_Home/wlserver/server/lib) 
- * <p/>
- * Start C:/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/startWebLogic.cmd,
- * and go to http://localhost:7001/console. <br/>
- * <p/>
- * Add following: </br/>
- * Connection factory: jms/jms_test_connection_factory1 </br/>
- * Queue: jms/jms_test_queue </br/>
- * @see <a href="https://segmentfault.com/a/1190000016814245">ref</a>
+ * 环境: WebLogic 12c, JDK1.8
+ * 包: wlthint3client.jar (you can find it in this location: C:/Oracle/Middleware/Oracle_Home/wlserver/server/lib) 
+ * 
+ * 启动: 
+ * ▪ 执行C:/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/startWebLogic.cmd
+ * ▪ 访问http://localhost:7001/console
+ * ▪ 添加连接工厂(Connection factory): jms/jms_test_connection_factory1
+ * ▪ 添加队列(Queue): jms/jms_test_queue
+ * 
+ * 参考https://segmentfault.com/a/1190000016814245
  */
 public class App {
 

@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,55 +22,24 @@ import org.slf4j.LoggerFactory;
  * 1、手动catch所有的异常，注意Throwable > Exception = Error
  * 2、重新实现线程池
  * 3、利用Future的get接口
- * 
- * @author Administrator
- *
  */
 public class ExecutorServiceTest {
 
     static Logger log = LoggerFactory.getLogger(ExecutorServiceTest.class);
     
-    static ExecutorService service;
-    static Collection<Callable<Object>> tasks;
-    static {
-        service = Executors.newFixedThreadPool(3);
-        tasks = new ArrayList<>();
-        tasks.add(new Callable<Object>() {
-            @Override
-            public Map<String, Object> call() throws Exception {
-                Random random = new Random();
-                int ret = random.nextInt();
-                TimeUnit.SECONDS.sleep(40);
-                return Map.of(Thread.currentThread().getName(), ret);
-            }
-        });
-        tasks.add(new Callable<Object>() {
-            @Override
-            public Map<String, String> call() throws Exception {
-                String ret = UUID.randomUUID().toString();
-                TimeUnit.SECONDS.sleep(30);
-//                if (ret != null) throw new RuntimeException("业务异常");
-                return Map.of(Thread.currentThread().getName(), ret);
-            }
-        });
-    }
-    
     /**
      * 立即停止线程池的所有任务，但不保证都能终止成功，建议用isTerminated探测状态
      */
-    public static
-    void shutdownNow()
-    {
-        
+    @Test
+    public void shutdownNow() {
+
     }
     
     /**
      * 提交任务到线程池并发执行，并返回任务对应的Future，Future持有对应任务的执行状态
      */
-    public static
-    void main(String[] args) 
-//    void submit()
-    {
+    @Test
+    public void submit() {
         try {
             long start = System.currentTimeMillis();
             List<Future<Object>> futures = new ArrayList<Future<Object>>();
@@ -96,20 +66,17 @@ public class ExecutorServiceTest {
     /**
      * 参考submit，但是不会返回任务对应的Future
      */
-    public static 
-    void execute()
-    {
-        
+    @Test
+    public void execute() {
+
     }
 
     /**
      * 执行线程池任务，并返回所有任务对应的Future列表，Future持有对应任务的执行状态
      * 注意，min(所有任务完成时间，限时)到达之前，调用invokeAll的线程将会处于阻塞状态
      */
-    public static 
-//    void main(String[] args) 
-    void invokeAll()
-    {
+    @Test
+    public void invokeAll() {
         try {
             long start = System.currentTimeMillis();
             List<Future<Object>> futures = service.invokeAll(tasks, 4, TimeUnit.SECONDS); // min(所有任务完成时间，限时)到达之前处于阻塞状态，限时之后没有完成的任务将被取消
@@ -132,9 +99,33 @@ public class ExecutorServiceTest {
     /**
      * 参考invokeAll
      */
-    public static 
-    void invokeAny()
-    {
-        
+    @Test
+    public void invokeAny() {
+
+    }
+    
+    static ExecutorService service;
+    static Collection<Callable<Object>> tasks;
+    static {
+        service = Executors.newFixedThreadPool(3);
+        tasks = new ArrayList<>();
+        tasks.add(new Callable<Object>() {
+            @Override
+            public Map<String, Object> call() throws Exception {
+                Random random = new Random();
+                int ret = random.nextInt();
+                TimeUnit.SECONDS.sleep(40);
+                return Map.of(Thread.currentThread().getName(), ret);
+            }
+        });
+        tasks.add(new Callable<Object>() {
+            @Override
+            public Map<String, String> call() throws Exception {
+                String ret = UUID.randomUUID().toString();
+                TimeUnit.SECONDS.sleep(30);
+//                if (ret != null) throw new RuntimeException("业务异常");
+                return Map.of(Thread.currentThread().getName(), ret);
+            }
+        });
     }
 }

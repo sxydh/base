@@ -1,37 +1,36 @@
 package cn.net.bhe.basics.concurrent;
 
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * volatile并不能带来线程安全
+ */
 public class VolatileTest {
+    static Logger log = LoggerFactory.getLogger(VolatileTest.class);
 
-    public static void main(String[] args) {
-        NotThreadSafeTest.run();
-    }
-
-}
-
-class NotThreadSafeTest {
-
-    public static volatile int race = 0;
-    private static final int THREADS_COUNT = 20;
-
-    public static void increase() {
-        race++;
-    }
-
-    public static void run() {
-        Thread[] threads = new Thread[THREADS_COUNT];
-        for (int i = 0; i < THREADS_COUNT; i++) {
-            threads[i] = new Thread(new Runnable() {
+    /**
+     * 加数测试，正确结果因为100000，实际结果总是小于正确结果
+     */
+    volatile int race = 0;
+    @Test
+    public void addNum() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            Thread task = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < 10000; i++) {
-                        increase();
+                        race++;
                     }
                 }
             });
-            threads[i].start();
+            task.start();
         }
-        while (Thread.activeCount() > 1)
+        while (Thread.activeCount() > 2) { // 用了junit所以活动线程至少是2
             Thread.yield();
-        System.out.println(race);
+        }
+        log.info(race + "");
     }
+    
 }

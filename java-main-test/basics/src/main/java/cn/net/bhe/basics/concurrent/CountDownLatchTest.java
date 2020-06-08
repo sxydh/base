@@ -1,66 +1,77 @@
 package cn.net.bhe.basics.concurrent;
 
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * CountDownLatch的作用是允许1或N个线程等待其他线程完成执行。
+ * CountDownLatch实例持有一个计数器，在计数器为0之前，调用该实例await()的所有线程都处于阻塞状态，计数器为0后阻塞的线程继续执行。
+ */
 public class CountDownLatchTest {
-
-    public static void main(String[] args) {
-        ExecutorService service = Executors.newFixedThreadPool(10);
-        long time = 0;
+    static Logger log = LoggerFactory.getLogger(CountDownLatchTest.class);
+    
+    /**
+     * 计算线程池任务总耗时一个简单结构
+     */
+    @Test
+    public void timingThreadPool() {
         try {
-            /*
-             * A few more details bear noting. The executor that is passed to
-             * the time method must allow for the creation of at least as many
-             * threads as the given concurrency level, or the test will never
-             * complete. This is known as a thread starvation deadlock [Goetz06
-             * 8.1.1].
-             */
-            time = time(service, 3, new Runnable() {
+            // 线程池数量大于等于任务并发数，否则会引发饥饿死锁
+            ExecutorService executor = Executors.newFixedThreadPool(10);
+            int concurrency = 3;
+            
+            Runnable work = new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        System.err.println(Thread.currentThread());
-                        Thread.sleep(500);
+                        Random random = new Random();
+                        int i = random.nextInt(5);
+                        log.info("任务{}执行中，需要{}s", Thread.currentThread().getName(), i);
+                        TimeUnit.SECONDS.sleep(i);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            });
+            };
+            
+            final CountDownLatch ready = new CountDownLatch(concurrency);
+            final CountDownLatch start = new CountDownLatch(1);
+            final CountDownLatch done = new CountDownLatch(concurrency);
+            for (int i = 0; i < concurrency; i++) {
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        log.info("任务{}准备完毕", Thread.currentThread().getName());
+                        ready.countDown(); // 任务准备完毕后，ready计数器减一
+                        try {
+                            log.info("任务{}进入开始等待中", Thread.currentThread().getName());
+                            start.await(); // start计数器为0前，所有任务阻塞
+                            work.run();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        } finally {
+                            done.countDown(); // 任务完成后done计数器减一
+                        }
+                    }
+                });
+            }
+            ready.await(); // ready计数器为0前，主线程阻塞
+            long startNanos = System.nanoTime();
+            start.countDown(); // start减一后为0，触发所有被start阻塞的线程
+            done.await(); // done计数器为0前，主线程阻塞
+            
+            log.info("所有任务执行完毕，总耗时{}nanos", System.nanoTime() - startNanos);
+            executor.shutdown();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        service.shutdown();
-        System.out.println(time);
     }
 
-    // Simple framework for timing concurrent execution
-    public static long time(Executor executor, int concurrency, final Runnable action) throws InterruptedException {
-        final CountDownLatch ready = new CountDownLatch(concurrency);
-        final CountDownLatch start = new CountDownLatch(1);
-        final CountDownLatch done = new CountDownLatch(concurrency);
-        for (int i = 0; i < concurrency; i++) {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    ready.countDown(); // Tell timer we're ready
-                    try {
-                        start.await(); // Wait till peers are ready
-                        action.run();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    } finally {
-                        done.countDown(); // Tell timer we're done
-                    }
-                }
-            });
-        }
-        ready.await(); // Wait for all workers to be ready
-        long startNanos = System.nanoTime();
-        start.countDown(); // And they're off!
-        done.await(); // Wait for all workers to finish
-        return System.nanoTime() - startNanos;
-    }
 }

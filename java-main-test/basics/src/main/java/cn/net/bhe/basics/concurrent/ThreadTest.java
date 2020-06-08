@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,23 +34,21 @@ public class ThreadTest {
      * will be set. Interrupting a thread that is not alive need not have any
      * effect.
      */
-    public static
-//    void interrupt()()
-    void main(String[] args) throws Exception {
+    @Test
+    public void interrupt() throws Exception {
         Thread task = new Thread(() -> {
-            Object obj = new Object();
-            synchronized (obj) {
+            synchronized (this) {
                 try {
-                    log.info("wait");
-                    obj.wait();
+                    log.info("任务线程阻塞中");
+                    this.wait();
                 } catch (InterruptedException e) {
                     log.error("", e);
                 }
             }
         });
         task.start();
-        TimeUnit.SECONDS.sleep(5);
-        log.info("interrupt");
+        TimeUnit.SECONDS.sleep(2);
+        log.info("主线程中断任务线程");
         task.interrupt();
     }
 
@@ -70,16 +69,15 @@ public class ThreadTest {
      * @see #run()
      * @see #stop()
      */
-    public static void
-//    main(String[] args)
-            start() {
+    @Test
+    public void start() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println(Thread.currentThread().getName());
+                log.info("");
             }
         }).start();
-        System.out.println(Thread.currentThread().getName());
+        log.info("");
     }
 
     /**
@@ -95,39 +93,41 @@ public class ThreadTest {
      * @see #stop()
      * @see #Thread(ThreadGroup, Runnable, String)
      */
-    public static void
-//    main(String[] args)
-            run() {
+    @Test
+    public void run() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println(Thread.currentThread().getName());
+                log.info("");
             }
         }).run();
-        System.out.println(Thread.currentThread().getName());
+        log.info("");
     }
 
     /**
+     * 线程休眠
+     * 
      * Causes the currently executing thread to sleep (temporarily cease execution)
      * for the specified number of milliseconds, subject to the precision and
      * accuracy of system timers and schedulers. The thread does not lose ownership
      * of any monitors.
      */
-    public static void
-//    main(String[] args)
-            sleep() {
-        new Thread(new Runnable() {
+    @Test
+    public void sleep() throws Exception {
+        Thread task = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
-                    System.out.println(Thread.currentThread().getName());
+                    TimeUnit.SECONDS.sleep(3);
+                    log.info("");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
-        System.out.println(Thread.currentThread().getName());
+        });
+        task.start();
+        task.join();
+        log.info("");
     }
 
     /**
@@ -164,35 +164,33 @@ public class ThreadTest {
      * @see java.lang.Object#notify()
      * @see java.lang.Object#notifyAll()
      */
-    public static void
-//    main(String[] args)
-            wai() {
+    @Test
+    public void await() {
         // 利用wait()实现特定线程优先执行
         // 其它经典例子https://www.programcreek.com/2009/02/notify-and-wait-example/
         Function<Object, Object> print = new Function<Object, Object>() {
             @Override
             public Object apply(Object obj) {
-                System.out.println(Thread.currentThread().getName() + "->" + obj);
+                log.info(obj + "");
                 return null;
             }
         };
-        Thread newThread = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 4; i++) {
                     print.apply(i);
                 }
                 synchronized (print) {
                     print.notify(); // notify()后主线程并不会立即执行，除非获得了print锁
                     try {
-                        Thread.sleep(2000);
+                        TimeUnit.SECONDS.sleep(2);;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
-        });
-        newThread.start();
+        }).start();
         synchronized (print) {
             try {
                 print.wait(); // 释放print锁并阻塞当前线程，直到newThread调用print的notify()且获得print锁
@@ -204,7 +202,7 @@ public class ThreadTest {
     }
 
     /**
-     * 某个线程thread1调用了某个对象obj1的notify()时会随机唤醒一个调用了obj1.wait()方法的线程thread2，让thread2得以继续执行（前提是获得了obj1的锁）。<br/>
+     * 某个线程thread1调用了某个对象obj1的notify()时会随机唤醒一个调用了obj1.wait()方法的线程thread2，让thread2得以继续执行（前提是获得了obj1的锁）。
      * thread1调用obj1的notify()时必须持有obj1的锁。
      * 
      * Wakes up a single thread that is waiting on this object's monitor. If any
@@ -236,9 +234,8 @@ public class ThreadTest {
      * @see java.lang.Object#notifyAll()
      * @see java.lang.Object#wait()
      */
-    public static void
-//    main(String[] args)
-            notif() {
+    @Test
+    public void notif() {
 
     }
 

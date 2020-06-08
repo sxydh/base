@@ -1,27 +1,29 @@
 package cn.net.bhe.basics.keep;
 
+import org.junit.jupiter.api.Test;
+
+/**
+ * 获取当前方法名
+ */
 public class CurrentMethodName {
 
-    public static void main(String[] args) {
-        throwable();
-        innerObj();
-        thread();
-    }
-
-    public static void throwable() {
+    @Test
+    public void throwable() {
         String nameofCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        System.out.println("Name of current method: " + nameofCurrMethod);
+        System.out.println(nameofCurrMethod);
     }
 
-    public static void innerObj() {
+    @Test
+    public void innerObj() {
         String nameofCurrMethod = new Object() {
         }.getClass().getEnclosingMethod().getName();
-        System.out.println("Name of current method: " + nameofCurrMethod);
+        System.out.println(nameofCurrMethod);
     }
 
-    public static void thread() {
+    @Test
+    public void thread() {
         String nameofCurrMethod = Thread.currentThread().getStackTrace()[1].getMethodName();
-        System.out.println("Name of current method: " + nameofCurrMethod);
+        System.out.println(nameofCurrMethod);
     }
 
 }

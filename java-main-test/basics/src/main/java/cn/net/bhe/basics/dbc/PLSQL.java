@@ -11,7 +11,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import oracle.jdbc.OracleTypes;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
 import oracle.sql.STRUCT;
@@ -21,33 +20,6 @@ public class PLSQL {
 
     private Connection conn = null;
     static final Logger LOGGER = LoggerFactory.getLogger(PLSQL.class);
-
-    public static void main(String[] args) throws SQLException {
-        PLSQL plsql = new PLSQL(Conn.getOracleConn("test", "123456"));
-        /*
-        CREATE OR REPLACE PROCEDURE obj_pr(val  out number,
-                                           obj  IN obj_type,
-                                           objs in objs_type) AS
-          temp NUMBER;
-        BEGIN
-          temp := 0;
-          FOR i in 1 .. objs.count LOOP
-            temp := temp + obj.numb * objs(i).numb;
-          END LOOP;
-          val := temp;
-        END obj_pr;
-         */
-        CallableStatement call = plsql.prepareCall("{CALL OBJ_PR(?,?,?)}");
-        call.registerOutParameter(1, OracleTypes.NUMBER);
-        call.setObject(2, plsql.getSTRUCT("OBJ_TYPE", new Bean(4, 5))); // UPPERCASE
-        List<Bean> beans = new ArrayList<>();
-        beans.add(new Bean(1, 10));
-        beans.add(new Bean(2, 90));
-        beans.add(new Bean(3, 20));
-        call.setArray(3, plsql.getARRAY("OBJ_TYPE", "OBJS_TYPE", beans)); // UPPERCASE
-        call.execute();
-        LOGGER.info(call.getString(1));
-    }
 
     public PLSQL(Connection cn) {
         conn = cn;

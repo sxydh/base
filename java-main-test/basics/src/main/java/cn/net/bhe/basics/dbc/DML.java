@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +15,6 @@ public class DML {
     private Connection conn;
     static final Logger LOGGER = LoggerFactory.getLogger(DML.class);
 
-    public static void main(String[] args) throws SQLException {
-        DML dml = new DML(Conn.getOracleConn("keep", "123"));
-        /*List<List<Object>> rows = dml.query("SELECT * FROM test");
-        System.out.println(rows);*/
-        dml.execute("DELETE t_test WHERE id = 2");
-    }
-
     public DML(Connection cn) {
         conn = cn;
     }
@@ -32,14 +24,14 @@ public class DML {
         List<List<Object>> rows = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setFetchSize(100);// not paging
+            ps.setFetchSize(100); // 结果集分批次取，每次取该值大小，如果设置为0，则JDBC取自己的最佳预测值
             rs = ps.executeQuery();
             ResultSetMetaData rm = rs.getMetaData();
             int colsNum = rm.getColumnCount();
             while (rs.next()) {
                 List<Object> row = new ArrayList<>();
                 rows.add(row);
-                // note that the row and column indexes start at 1
+                // 注意行列索引从1开始
                 for (int i = 1; i <= colsNum; i++) {
                     row.add(rs.getObject(i));
                 }

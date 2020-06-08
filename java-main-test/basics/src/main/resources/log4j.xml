@@ -20,6 +20,7 @@
 		class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="./cn.net.bhe.basics.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<param name="Encoding" value="UTF-8"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
 				value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p][%t] %c{3\} - %m%n" />

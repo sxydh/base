@@ -4,15 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Sort {
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public static void main
-    (String[] args) {
+public class Sort {
+    static final Logger log = LoggerFactory.getLogger(Sort.class);
+
+    @Test
+    public void example() {
         List<String> list = Arrays.asList(new String[] {"a", "c", "b", "a"});
-        System.out.println(
-                list.stream()
+        log.info(list.stream()
                 .sorted((ele1, ele2) -> ele1.compareTo(ele2))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()) + "");
     }
 
 }

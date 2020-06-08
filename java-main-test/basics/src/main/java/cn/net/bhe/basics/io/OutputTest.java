@@ -6,13 +6,16 @@ import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 数据写出
+ */
 public class OutputTest {
 
     static Logger LOGGER = LoggerFactory.getLogger(OutputTest.class);
-
     private static String path = "C:/Users/Administrator/Desktop/10011.txt";
     
     public static <T extends Closeable> void close(T closeable) {
@@ -27,13 +30,11 @@ public class OutputTest {
 
     /*
      * ****************************************************************
-     * Writer start
+     * Writer类型
      * ****************************************************************
      */
-    public static void 
-    bufferedWriter() 
-    // main(String[] args)
-    {
+    @Test
+    public void bufferedWriter() {
         FileWriter writer = null;
         BufferedWriter buffer = null;
         try {
@@ -49,10 +50,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    outputStreamWriter() 
-    // main(String[] args)
-    {
+    @Test
+    public void outputStreamWriter() {
         OutputStream outputStream = null;
         Writer outputStreamWriter = null;
         try {
@@ -67,10 +66,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    fileWriter() 
-    // main(String[] args)
-    {
+    @Test
+    public void fileWriter() {
         FileWriter fw = null;
         try {
             fw = new FileWriter(path);
@@ -83,16 +80,14 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    printWriter() 
-    // main(String[] args)
-    {
-        // Data to write on Console using PrintWriter  
+    @Test
+    public void printWriter() {
+        // Data to write on Console using PrintWriter
         PrintWriter writer = new PrintWriter(System.out);
         writer.write("Javatpoint provides tutorials of all technology.");
         writer.flush();
         writer.close();
-        // Data to write in File using PrintWriter       
+        // Data to write in File using PrintWriter
         PrintWriter writer1 = null;
         try {
             writer1 = new PrintWriter(new File(path));
@@ -105,10 +100,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    stringWriter() 
-    // main(String[] args)
-    {
+    @Test
+    public void stringWriter() {
         char[] ary = new char[10];
         StringWriter writer = new StringWriter();
         FileInputStream input = null;
@@ -129,10 +122,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    pipedWriter() 
-    // main(String[] args)
-    {
+    @Test
+    public void pipedWriter() {
         final PipedReader pipedReader = new PipedReader();
         final PipedWriter pipedWriter = new PipedWriter();
 
@@ -181,10 +172,8 @@ public class OutputTest {
         readerThread.start();
     }
 
-    public static void 
-    charArrayWriter()
-    // main(String[] args)
-    {
+    @Test
+    public void charArrayWriter() {
         // Initailizing the character array 
         char[] geek = { 'G', 'E', 'E', 'K', 'S' };
         String geek_str;
@@ -234,10 +223,8 @@ public class OutputTest {
         pln("Size of char_array1 : " + char_array3.size());
     }
 
-    public static void 
-    filterWriter() 
-    // main(String[] args)
-    {
+    @Test
+    public void filterWriter() {
         FileWriter fw = null;
         FilterWriter filterWriter = null;
         FileReader fr = null;
@@ -245,6 +232,7 @@ public class OutputTest {
         try {
             fw = new FileWriter(path);
             filterWriter = new FilterWriter(fw) {
+                @Override
                 public void write(String str) throws IOException {
                     super.write(str.toLowerCase());
                 }
@@ -268,19 +256,17 @@ public class OutputTest {
     }
     /*
      * ****************************************************************
-     * Writer end
+     * Writer类型
      * ****************************************************************
      */
 
     /*
      * ****************************************************************
-     * OutputStream start
+     * OutputStream类型
      * ****************************************************************
      */
-    public static void 
-    fileOutputStream() 
-    // main(String[] args)
-    {
+    @Test
+    public void fileOutputStream() {
         FileOutputStream fout = null;
         try {
             fout = new FileOutputStream(path);
@@ -293,10 +279,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    filterOutputStream() 
-    // main(String[] args)
-    {
+    @Test
+    public void filterOutputStream() {
         FileOutputStream file = null;
         FilterOutputStream filter = null;
         try {
@@ -315,10 +299,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    bufferedOutputStream() 
-    // main(String[] args)
-    {
+    @Test
+    public void bufferedOutputStream() {
         FileOutputStream fout = null;
         BufferedOutputStream bout = null;
         try {
@@ -337,10 +319,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    dataOutputStream() 
-    // main(String[] args)
-    {
+    @Test
+    public void dataOutputStream() {
         FileOutputStream file = null;
         DataOutputStream data = null;
         try {
@@ -357,10 +337,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    printStream() 
-    // main(String[] args)
-    {
+    @Test
+    public void printStream() {
         FileOutputStream fout = null;
         PrintStream pout = null;
         try {
@@ -378,10 +356,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    objectOutputStream()
-    // main(String[] args)
-    {
+    @Test
+    public void objectOutputStream() {
         ObjectOutputStream objectOutputStream = null;
         ObjectInputStream objectInputStream = null;
         try {
@@ -404,10 +380,8 @@ public class OutputTest {
         }
     }
 
-    public static void 
-    pipedOutputStream()
-    // main(String[] args)
-    {
+    @Test
+    public void pipedOutputStream() {
         @SuppressWarnings("resource")
         final PipedOutputStream pout = new PipedOutputStream();
         final PipedInputStream pin = new PipedInputStream();
@@ -419,6 +393,7 @@ public class OutputTest {
         }
         // creating one thread t1 which writes the data  
         Thread t1 = new Thread() {
+            @Override
             public void run() {
                 for (int i = 65; i <= 90; i++) {
                     try {
@@ -431,6 +406,7 @@ public class OutputTest {
         };
         // creating another thread t2 which reads the data  
         Thread t2 = new Thread() {
+            @Override
             public void run() {
                 try {
                     for (int i = 65; i <= 90; i++)
@@ -444,10 +420,8 @@ public class OutputTest {
         t2.start();
     }
 
-    public static void 
-    // byteArrayOutputStream() 
-    main(String[] args)
-    {
+    @Test
+    public void byteArrayOutputStream() {
         FileOutputStream fout1 = null;
         FileOutputStream fout2 = null;
         ByteArrayOutputStream bout = null;
@@ -470,7 +444,7 @@ public class OutputTest {
     }
     /*
      * ****************************************************************
-     * OutputStream end
+     * OutputStream类型
      * ****************************************************************
      */
     

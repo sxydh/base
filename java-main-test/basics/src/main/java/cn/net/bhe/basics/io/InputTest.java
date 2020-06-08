@@ -28,13 +28,16 @@ import java.io.Reader;
 import java.io.SequenceInputStream;
 import java.io.StringReader;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 数据读入
+ */
 public class InputTest {
 
     static Logger LOGGER = LoggerFactory.getLogger(InputTest.class);
-
     private static String path = "C:/Users/Administrator/Desktop/10011.txt";
 
     public static <T extends Closeable> void close(T closeable) {
@@ -49,13 +52,11 @@ public class InputTest {
 
     /*
      * ****************************************************************
-     * Reader start
+     * Reader类型
      * ****************************************************************
      */
-    public static void
-    bufferedReader()
-    // main(String[] args)
-    {
+    @Test
+    public void bufferedReader() {
         StringBuilder result = new StringBuilder();
         FileReader fr = null;
         BufferedReader br = null;
@@ -75,10 +76,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    inputStreamReader()
-    // main(String[] args)
-    {
+    @Test
+    public void inputStreamReader() {
         StringBuilder result = new StringBuilder();
         InputStream inputStream = null;
         Reader inputStreamReader = null;
@@ -98,10 +97,8 @@ public class InputTest {
         }
     }
 
-    public static void
-    fileReader()
-    // main(String[] args)
-    {
+    @Test
+    public void fileReader() {
         StringBuilder result = new StringBuilder();
         FileReader fr = null;
         try {
@@ -118,10 +115,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    stringReader() 
-    // main(String[] args)
-    {
+    @Test
+    public void stringReader() {
         String input = "Input String... ";
         StringReader stringReader = new StringReader(input);
         try {
@@ -136,10 +131,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    pipeReader() 
-    // main(String[] args)
-    {
+    @Test
+    public void pipeReader() {
         final PipedReader pipedReader = new PipedReader();
         final PipedWriter pipedWriter = new PipedWriter();
 
@@ -188,10 +181,8 @@ public class InputTest {
         readerThread.start();
     }
 
-    public static void 
-    filterReader() 
-    // main(String[] args)
-    {
+    @Test
+    public void filterReader() {
         StringBuilder result = new StringBuilder();
         Reader reader = null;
         FilterReader fr = null;
@@ -220,10 +211,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    pushbackReader() 
-    // main(String[] args)
-    {
+    @Test
+    public void pushbackReader() {
         char ary[] = { '1', '-', '-', '2', '-', '3', '4', '-', '-', '-', '5', '6' };
         CharArrayReader reader = new CharArrayReader(ary);
         PushbackReader push = new PushbackReader(reader);
@@ -248,19 +237,17 @@ public class InputTest {
     }
     /*
      * ****************************************************************
-     * Reader end
+     * Reader类型
      * ****************************************************************
      */
 
     /*
      * ****************************************************************
-     * InputStream start
+     * InputStream类型
      * ****************************************************************
      */
-    public static void 
-    fileInputStream()
-    // main(String[] args)
-    {
+    @Test
+    public void fileInputStream() {
         StringBuilder result = new StringBuilder();
         FileInputStream fin = null;
         try {
@@ -277,10 +264,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    filterInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void filterInputStream() {
         FileInputStream file = null;
         FilterInputStream filter = null;
         try {
@@ -298,10 +283,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    bufferedInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void bufferedInputStream() {
         FileInputStream fin = null;
         BufferedInputStream bin = null;
         try {
@@ -319,10 +302,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    dataInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void dataInputStream() {
         InputStream input = null;
         DataInputStream inst = null;
         try {
@@ -343,10 +324,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    pushbackInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void pushbackInputStream() {
         String srg = "1##2#34###12";
         byte ary[] = srg.getBytes();
         ByteArrayInputStream array = new ByteArrayInputStream(ary);
@@ -371,10 +350,8 @@ public class InputTest {
         }
     }
 
-    public static void 
-    objectInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void objectInputStream() {
         String str = "Hello";
         byte[] barray = { 'j', 'a', 'v', 'a', 'T', 'p', 'o', 'i', 'n', 't' };
         ObjectOutputStream objoutstream = null;
@@ -409,21 +386,20 @@ public class InputTest {
         }
     }
 
-    public static void 
-    pipedInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void pipedInputStream() {
         @SuppressWarnings("resource")
         final PipedOutputStream pout = new PipedOutputStream();
         final PipedInputStream pin = new PipedInputStream();
 
         try {
-            pout.connect(pin); // connecting the streams  
+            pout.connect(pin); // connecting the streams
         } catch (IOException e) {
             pln(e.getLocalizedMessage());
         }
-        // creating one thread t1 which writes the data  
+        // creating one thread t1 which writes the data
         Thread t1 = new Thread() {
+            @Override
             public void run() {
                 for (int i = 65; i <= 90; i++) {
                     try {
@@ -434,8 +410,9 @@ public class InputTest {
                 }
             }
         };
-        // creating another thread t2 which reads the data  
+        // creating another thread t2 which reads the data
         Thread t2 = new Thread() {
+            @Override
             public void run() {
                 try {
                     for (int i = 65; i <= 90; i++)
@@ -444,15 +421,13 @@ public class InputTest {
                 }
             }
         };
-        // starting both threads  
+        // starting both threads
         t1.start();
         t2.start();
     }
 
-    public static void 
-    sequenceInputStream() 
-    // main(String[] args) 
-    {
+    @Test
+    public void sequenceInputStream() {
         FileInputStream input1 = null;
         FileInputStream input2 = null;
         SequenceInputStream inst = null;
@@ -473,23 +448,21 @@ public class InputTest {
         }
     }
 
-    public static void 
-    // byteArrayInputStream() 
-    main(String[] args) 
-    {
+    @Test
+    public void byteArrayInputStream() {
         byte[] buf = { 35, 36, 37, 38 };
-        // Create the new byte array input stream  
+        // Create the new byte array input stream
         ByteArrayInputStream byt = new ByteArrayInputStream(buf);
         int k = 0;
         while ((k = byt.read()) != -1) {
-            // Conversion of a byte into character  
+            // Conversion of a byte into character
             char ch = (char) k;
             pln("ASCII value of Character is:" + k + "; Special character is: " + ch);
         }
     }
     /*
      * ****************************************************************
-     * InputStream end
+     * InputStream类型
      * ****************************************************************
      */
 

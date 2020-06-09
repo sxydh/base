@@ -22,4 +22,8 @@ def get_cur_dir():
     return os.path.abspath(os.curdir)
 
 
-print(os.path.abspath(os.curdir))
+print(get_cwd())
+print(get_cur_abs_path())
+print(get_cur_file_abs_path('io_utils.py'))
+print(get_cur_dir())
+

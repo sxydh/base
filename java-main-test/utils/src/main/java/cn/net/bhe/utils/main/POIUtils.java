@@ -51,7 +51,8 @@ public class POIUtils {
         List<Bean> list = new ArrayList<Bean>();
         list.add(new Bean());
         list.add(new Bean());
-        HSSFWorkbook workbook = listToWorkbookWithVMerge(null, list);
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        listToSheetWithVMerge(workbook, "", null, list);
         
         log.info(workbookToHtml(workbook));
 //        writeWorkbookToFile("C:\\Users\\Administrator\\Desktop\\test.xls", workbook);
@@ -147,14 +148,23 @@ public class POIUtils {
     /**
      * 数组存excel并纵向合并有相同key的单元格，key=前面所有单元格内容+当前单元格内容
      * 
+     * @param workbook
+     * @param sheetName
      * @param colHeads
      * @param list
      * @return
      */
-    public static HSSFWorkbook listToWorkbookWithVMerge(String[] colHeads, List<?> list) {
-        if (list == null || list.size() == 0) return null;
-        List<List<String[]>> data = new ArrayList<List<String[]>>();
+    public static void listToSheetWithVMerge(HSSFWorkbook workbook, String sheetName, String[] colHeads, List<?> list) {
         try {
+            if (workbook == null) return;
+            HSSFSheet sheet = workbook.createSheet();
+            if (sheetName != null && !sheetName.isEmpty()) {
+                workbook.setSheetName(workbook.getSheetIndex(sheet), sheetName);
+            }
+            if (list == null || list.size() == 0) {
+                return;
+            }
+            List<List<String[]>> data = new ArrayList<List<String[]>>();
             // 预生成数据
             for (Object bean : list) {
                 List<String[]> fvs = beanToStringArray(bean);
@@ -173,9 +183,6 @@ public class POIUtils {
                     colHeads[i] = fields[i].getName();
                 }
             }
-            
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet();
             
             // 创建标题行
             
@@ -256,8 +263,6 @@ public class POIUtils {
                     }
                 }
             }
-            
-            return workbook;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -276,18 +281,21 @@ public class POIUtils {
     }
 
     /**
-     * 数组存excel
+     * 数组到sheet
      * 
-     * @param file
+     * @param workbook
+     * @param sheetName
      * @param list
      */
-    public static void listToExcel(String file, List<?> list) {
-        if (list == null || list.size() == 0) return;
+    public static void listToSheet(HSSFWorkbook workbook, String sheetName, List<?> list) {
         try {
-            // 创建新的Excel工作簿
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            // 在Excel工作簿中建一工作表，其名为缺省值
+            if (workbook == null) return;
             HSSFSheet sheet = workbook.createSheet();
+            if (sheetName != null && !sheetName.isEmpty()) {
+                workbook.setSheetName(workbook.getSheetIndex(sheet), sheetName);
+            }
+            
+            if (list == null || list.size() == 0) return;
             
             // 写标题行
             // 在索引0的位置创建行（最顶端的行）
@@ -320,16 +328,6 @@ public class POIUtils {
                 }
 
             }
-
-            // 新建一输出文件流
-            FileOutputStream fOut = new FileOutputStream(file);
-            // 把相应的Excel工作簿存盘
-            workbook.write(fOut);
-            fOut.flush();
-            // 操作结束，关闭文件
-            fOut.close();
-            // 关闭workbook
-            workbook.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

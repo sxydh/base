@@ -45,17 +45,24 @@ public class POIUtils {
     public void test() throws Exception {
         @SuppressWarnings("unused")
         class Bean {
-            String aaaaaaaaaaaaaaaaaaaa = "1";
-            String bbb = "2";
+            String a;
+            String b;
+            
+            Bean setA(String str) { this.a = str; return this; }
+            Bean setB(String str) { this.b = str; return this; }
         }
         List<Bean> list = new ArrayList<Bean>();
-        list.add(new Bean());
-        list.add(new Bean());
+        list.add(new Bean().setA("a0").setB("b0"));
+        list.add(new Bean().setA("a1").setB("b1"));
+        list.add(new Bean().setA("a2").setB("b2"));
+        list.add(new Bean().setA("a3").setB("b3"));
+        list.add(new Bean().setA("a4").setB("b4"));
         HSSFWorkbook workbook = new HSSFWorkbook();
-        listToSheetWithVMerge(workbook, "", null, list);
+        listToSheet(workbook, "", list);
+        workbook.getSheetAt(0).shiftRows(1, 2, -1, false, false, true);
         
-        log.info(workbookToHtml(workbook));
-//        writeWorkbookToFile("C:\\Users\\Administrator\\Desktop\\test.xls", workbook);
+//        log.info(workbookToHtml(workbook));
+        writeWorkbookToFile("C:\\Users\\Administrator\\Desktop\\test.xls", workbook);
     }
     
     public static String workbookToHtml(HSSFWorkbook workbook) throws Exception {
@@ -339,5 +346,17 @@ public class POIUtils {
             sheet.setColumnWidth(colIndexs[i], widths[i]);
         }
     }
-
+    
+    /**
+     * start到end之间的行整体移动，gap为正向下移动，为负向上移动
+     * 
+     * @param sheet
+     * @param start
+     * @param end
+     * @param gap       需要移动的距离
+     */
+    public static void moveRows(HSSFSheet sheet, int start, int end, int gap) {
+        sheet.shiftRows(start, end, gap);
+    }
+    
 }

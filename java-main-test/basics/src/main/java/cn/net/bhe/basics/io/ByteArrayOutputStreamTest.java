@@ -13,7 +13,7 @@ public class ByteArrayOutputStreamTest {
     static Logger log = LoggerFactory.getLogger(ByteArrayOutputStreamTest.class);
 
     /**
-     * 适用于特定场景下获取字节数组
+     * 适用于特定场景下替代FileOutputStream，然后从中获取字节数组
      */
     @Test
     public void toByteArray() {

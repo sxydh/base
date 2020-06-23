@@ -12,6 +12,11 @@ import javax.crypto.Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 公匙和私匙成对出现。
+ * 公匙加密，对应的私匙才能解密，即使传输数据被窃，也不用担心泄密。
+ * 私匙签名，对应的公匙才能验证，可以过滤掉伪装的发送者。
+ */
 public enum RSAUtils {
     ;
     static Logger LOGGER = LoggerFactory.getLogger(RSAUtils.class);

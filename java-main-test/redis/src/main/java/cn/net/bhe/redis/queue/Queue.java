@@ -1,8 +1,8 @@
-package queue;
+package cn.net.bhe.redis.queue;
 
-import main.RedisUtils;
+import cn.net.bhe.redis.jedis.JedisTest;
+import cn.net.bhe.utils.main.SerializeUtils;
 import redis.clients.jedis.Jedis;
-import utils.SerializeUtils;
 
 public class Queue {
 
@@ -16,13 +16,13 @@ public class Queue {
     }
 
     public static void lpush(String key, Object message) throws Exception {
-        Jedis jedis = RedisUtils.getJedis();
+        Jedis jedis = JedisTest.getJedis();
         jedis.lpush(SerializeUtils.serialize(key), SerializeUtils.serialize(message));
         jedis.close();
     }
 
     public static Object lpop(String key) throws Exception {
-        Jedis jedis = RedisUtils.getJedis();
+        Jedis jedis = JedisTest.getJedis();
         byte[] bytes = jedis.lpop(SerializeUtils.serialize(key));
         Object message = SerializeUtils.deserialize(bytes);
         jedis.close();

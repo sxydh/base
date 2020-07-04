@@ -1,4 +1,4 @@
-package main;
+package cn.net.bhe.redis.redistemplate;
 
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +33,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * Once configured, this class is thread-safe.
  *
  */
-public enum RedisTemplateUtils {
+public enum RedisTemplateTest {
 
     ;
     private static RedisTemplate<String, String> redisTemplate;
@@ -67,7 +67,7 @@ public enum RedisTemplateUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(RedisTemplateUtils.getExpire("key3"));
+        System.out.println(RedisTemplateTest.getExpire("key3"));
     }
 
     public static Long set(String key, String value, long seconds) {

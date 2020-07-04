@@ -1,17 +1,17 @@
-package channel;
+package cn.net.bhe.redis.channel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import main.RedisUtils;
+import cn.net.bhe.redis.jedis.JedisTest;
+import cn.net.bhe.utils.main.SerializeUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
-import utils.SerializeUtils;
 
 public class Subscribe extends BinaryJedisPubSub {
 
     static final Logger LOGGER = LoggerFactory.getLogger(Subscribe.class);
-    private Jedis jedis = RedisUtils.getJedis();
+    private Jedis jedis = JedisTest.getJedis();
 
     public static void main(String[] args) throws Exception {
         new Subscribe("testChannel");

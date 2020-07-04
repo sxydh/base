@@ -1,22 +1,28 @@
-package main;
+package cn.net.bhe.redis.jedis;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.Response;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.util.SafeEncoder;
 
-public enum RedisUtils {
-    ;
-    static Logger LOGGER = LoggerFactory.getLogger(RedisUtils.class);
+public class JedisTest {
+    static Logger log = LoggerFactory.getLogger(JedisTest.class);
 
     private static JedisPool jedisPool;
     static {
@@ -37,6 +43,29 @@ public enum RedisUtils {
         String value = jedis.get(key);
         jedis.close();
         return value;
+    }
+    
+    public static Map<String, Response<String>> pipelineGet(List<String> ks) {
+        Jedis jedis = getJedis();
+        Pipeline pipeline = jedis.pipelined();
+        Map<String, Response<String>> ret = new HashMap<String, Response<String>>();
+        for (String k : ks) {
+            ret.put(k, pipeline.get(k));
+        }
+        pipeline.sync();
+        jedis.close();
+        return ret;
+    }
+    
+    @Test
+    void pipelineGetTest() {
+        long start = System.currentTimeMillis();
+        List<String> ks = new ArrayList<String>();
+        for (int i = 1000000; i > 0; i--) {
+            ks.add(String.valueOf(i));
+        }
+        Map<String, Response<String>> ret = pipelineGet(ks);
+        log.info("耗时：{}，总数：{}，取一：{}", System.currentTimeMillis() - start, ret.size(), ret.entrySet().iterator().next());
     }
 
     public static String hget(String key, String field) {
@@ -68,6 +97,41 @@ public enum RedisUtils {
         }
         jedis.close();
         return status;
+    }
+    
+    @Test
+    void setTest() {
+        long start = System.currentTimeMillis();
+        for (int i = 1000000; i > 0; i--) {
+            set(String.valueOf(i), String.valueOf(i), null);
+        }
+        log.info("耗时：{}", System.currentTimeMillis() - start);
+    }
+    
+    public static void pipelineSet(Map<String, String> kvs, Integer seconds) {
+        Jedis jedis = getJedis();
+        Pipeline pipeline = jedis.pipelined();
+        for (Entry<String, String> entry : kvs.entrySet()) {
+            String key = entry.getKey();
+            String val = entry.getValue();
+            pipeline.set(key, val);
+            if (seconds != null) {
+                pipeline.expire(key, seconds);
+            }
+        }
+        pipeline.sync();
+        jedis.close();
+    }
+    
+    @Test
+    void pipelineSetTest() {
+        long start = System.currentTimeMillis();
+        Map<String, String> map = new HashMap<String, String>();
+        for (int i = 1000000; i > 0; i--) {
+            map.put(String.valueOf(i), String.valueOf(i));
+        }
+        pipelineSet(map, 3600);
+        log.info("耗时：{}", System.currentTimeMillis() - start);
     }
 
     public static Long hset(String key, String field, String value, Integer seconds) {
@@ -161,6 +225,8 @@ public enum RedisUtils {
     }
 
     /**
+     * 脚本执行是原子操作
+     * 
      * Redis uses the same Lua interpreter to run all the commands. Also Redis
      * guarantees that a script is executed in an atomic way: no other script or
      * Redis command will be executed while a script is being executed. This
@@ -183,8 +249,27 @@ public enum RedisUtils {
         Object obj = jedis.eval(script, keys, args);
         return obj;
     }
-
-    public static void main(String[] main) {
-
+    
+    @Test
+    void evalTest() {
+        try {
+            JedisTest.set("key1", "arg1", 3600);
+            Thread.sleep(1000);
+            List<String> keys = new ArrayList<>();
+            keys.add("key1");
+            List<String> args = new ArrayList<>();
+            args.add("arg1");
+            Object status = JedisTest.eval(
+                    // script
+                    "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end"
+                    // keys
+                    , keys
+                    // arguments
+                    , args);
+            log.info(status + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }

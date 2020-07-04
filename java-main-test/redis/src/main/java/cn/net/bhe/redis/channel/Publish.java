@@ -1,4 +1,4 @@
-package channel;
+package cn.net.bhe.redis.channel;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,14 +6,14 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import main.RedisUtils;
+import cn.net.bhe.redis.jedis.JedisTest;
+import cn.net.bhe.utils.main.SerializeUtils;
 import redis.clients.jedis.Jedis;
-import utils.SerializeUtils;
 
 public class Publish {
 
     static final Logger LOGGER = LoggerFactory.getLogger(Publish.class);
-    private Jedis jedis = RedisUtils.getJedis();
+    private Jedis jedis = JedisTest.getJedis();
 
     public static void main(String[] args) throws Exception {
         Publish publish = new Publish();

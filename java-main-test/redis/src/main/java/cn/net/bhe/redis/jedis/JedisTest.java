@@ -143,6 +143,37 @@ public class JedisTest {
         jedis.close();
         return status;
     }
+    
+    public static void hset(List<String> ks, List<String> fs, List<String> vs, Integer seconds) {
+        Jedis jedis = getJedis();
+        Pipeline pipeline = jedis.pipelined();
+        for (int i = 0; i < ks.size(); i++) {
+            String key = ks.get(i);
+            String field = fs.get(i);
+            String val = vs.get(i);
+            pipeline.hset(key, field, val);
+            if (seconds != null) {
+                pipeline.expire(key, seconds);
+            }
+        }
+        pipeline.sync();
+        jedis.close();
+    }
+    
+    @Test
+    void pipelineHsetTest() {
+        long start = System.currentTimeMillis();
+        List<String> ks = new ArrayList<String>();
+        List<String> fs = new ArrayList<String>();
+        List<String> vs = new ArrayList<String>();
+        for (int i = 1000000; i > 0; i--) {
+            ks.add("0");
+            fs.add(String.valueOf(i));
+            vs.add(String.valueOf(i));
+        }
+        hset(ks, fs, vs, 1000);
+        log.info("耗时：{}", System.currentTimeMillis() - start);
+    }
 
     public static String set(byte[] key, byte[] value, Integer seconds) {
         Jedis jedis = getJedis();
@@ -227,6 +258,8 @@ public class JedisTest {
     /**
      * 脚本执行是原子操作
      * 
+     * 例：if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end
+     * 
      * Redis uses the same Lua interpreter to run all the commands. Also Redis
      * guarantees that a script is executed in an atomic way: no other script or
      * Redis command will be executed while a script is being executed. This
@@ -240,13 +273,13 @@ public class JedisTest {
      * while the script is running no other client can execute commands.
      *
      * @param script
-     * @param keys
-     * @param args
+     * @param KEYS      索引。例，删除KEY[1]：redis.call('del', KEYS[1])，注意从1开始
+     * @param ARGS      参数。例，声明一个本地变量并赋值为ARGV[1]：local t = ARGV[1]，注意从1开始
      * @return
      */
-    public static Object eval(String script, List<String> keys, List<String> args) {
+    public static Object eval(String script, List<String> KEYS, List<String> ARGS) {
         Jedis jedis = getJedis();
-        Object obj = jedis.eval(script, keys, args);
+        Object obj = jedis.eval(script, KEYS, ARGS);
         return obj;
     }
     

@@ -1,5 +1,6 @@
 package cn.net.bhe.basics.concurrent;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -22,5 +23,24 @@ public class ConcurrentMapTest {
         map.putIfAbsent("key", "value");
         map.putIfAbsent("key", "new value");
         log.info(map + "");
+    }
+    
+    /**
+     * 利用ConcurrentHashMap创建一个线程安全的Set集合
+     */
+    @Test
+    public void newKeySet() {
+        Set<Object> set = ConcurrentHashMap.<Object> newKeySet();
+        set.add(new Object());
+        set.add(new Object());
+        set.add(new Object());
+        int i = 0;
+        for (Object object : set) {
+            i++;
+            if (i > 1) {
+                set.remove(object);
+            }
+        }
+        log.info("{}", set);
     }
 }

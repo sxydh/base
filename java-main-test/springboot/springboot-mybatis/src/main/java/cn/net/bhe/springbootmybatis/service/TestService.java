@@ -11,6 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.net.bhe.springbootmybatis.mapper.TestMapper;
 
+/**
+ * 手动事务管理
+ * @Autowired
+ * private PlatformTransactionManager transactionManager;
+ *  
+ * 开启事务
+ * TransactionStatus transactionStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+ * 提交事务
+ * transactionManager.commit(transactionStatus);
+ *
+ */
 @Service
 public class TestService {
 

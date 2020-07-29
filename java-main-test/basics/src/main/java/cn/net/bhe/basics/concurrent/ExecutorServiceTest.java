@@ -44,7 +44,7 @@ public class ExecutorServiceTest {
             long start = System.currentTimeMillis();
             List<Future<Object>> futures = new ArrayList<Future<Object>>();
             for (Callable<Object> task : tasks) {
-                futures.add(service.submit(task));
+                futures.add(executorService.submit(task));
             }
             log.info("提交任务完毕");
             int suc = 0;
@@ -60,7 +60,7 @@ public class ExecutorServiceTest {
         } catch (Exception e) {
             log.error("", e);
         }
-        service.shutdown();
+        executorService.shutdown();
     }
     
     /**
@@ -79,7 +79,7 @@ public class ExecutorServiceTest {
     public void invokeAll() {
         try {
             long start = System.currentTimeMillis();
-            List<Future<Object>> futures = service.invokeAll(tasks, 4, TimeUnit.SECONDS); // min(所有任务完成时间，限时)到达之前处于阻塞状态，限时之后没有完成的任务将被取消
+            List<Future<Object>> futures = executorService.invokeAll(tasks, 4, TimeUnit.SECONDS); // min(所有任务完成时间，限时)到达之前处于阻塞状态，限时之后没有完成的任务将被取消
             int suc = 0;
             for (Future<Object> future : futures) {
                 try {
@@ -93,7 +93,7 @@ public class ExecutorServiceTest {
         } catch (Exception e) {
             log.error("", e);
         }
-        service.shutdown();
+        executorService.shutdown();
     }
     
     /**
@@ -104,10 +104,10 @@ public class ExecutorServiceTest {
 
     }
     
-    static ExecutorService service;
+    static ExecutorService executorService;
     static Collection<Callable<Object>> tasks;
     static {
-        service = Executors.newFixedThreadPool(3);
+        executorService = Executors.newFixedThreadPool(3);
         tasks = new ArrayList<>();
         tasks.add(new Callable<Object>() {
             @Override

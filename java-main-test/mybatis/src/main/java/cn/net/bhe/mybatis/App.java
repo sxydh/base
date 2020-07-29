@@ -1,5 +1,9 @@
 package cn.net.bhe.mybatis;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -7,24 +11,30 @@ import org.slf4j.LoggerFactory;
 
 public class App {
     static Logger log = LoggerFactory.getLogger(App.class);
-    
+
     @Test
     public void test() {
         SqlSession session = Config.getSqlSessionFactory().openSession();
         try {
-            
+            TestMapper mapper = session.getMapper(TestMapper.class);
+            Map<String, Object> req = new HashMap<String, Object>();
+            req.put("value", Math.random());
+            req.put("id", 1);
+            Object obj = mapper.test(req);
+            System.out.println(obj);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            session.commit();
             session.close();
         }
     }
-    
+
     /**
      * xml形式
      */
     @Test
-    public void get() {
+    public void xml() {
         SqlSession session = Config.getSqlSessionFactory().openSession();
         try {
             TestMapper mapper = session.getMapper(TestMapper.class);
@@ -40,7 +50,7 @@ public class App {
      * 注解形式
      */
     @Test
-    public void list() {
+    public void annotation() {
         SqlSession session = Config.getSqlSessionFactory().openSession();
         try {
             TestMapper mapper = session.getMapper(TestMapper.class);

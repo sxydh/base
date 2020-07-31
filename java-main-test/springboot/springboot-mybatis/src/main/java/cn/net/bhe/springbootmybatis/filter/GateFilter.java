@@ -32,16 +32,13 @@ public class GateFilter implements Filter {
         RequestWrapper requestWrapper = new RequestWrapper((HttpServletRequest) request);
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-
+        
         long start = System.currentTimeMillis();
         String uri = requestWrapper.getRequestURI();
         String body = requestWrapper.getBody();
         String content = ""
-                //
                 + "start at: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
-                //
                 + "\r\nuri: " + uri
-                //
                 + "\r\nrequest body:\r\n" + JacksonUtils.pretty(body);
         LOGGER.info(Const.LOGGER_FORMAT_INFO, content);
 
@@ -56,15 +53,10 @@ public class GateFilter implements Filter {
             String enresbody = (String) requestWrapper.getAttribute(K.RES_BODY_ENCRYPT.toString());
             long spend = end - start;
             content = ""
-                    //
                     + "end at: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
-                    //
                     + "\r\nuri: " + uri
-                    //
                     + "\r\nspend: " + spend
-                    //
                     + "\r\nresponse body:\r\n" + JacksonUtils.pretty(resbody)
-                    //
                     + "\r\nencrypt body: " + enresbody;
             LOGGER.info(Const.LOGGER_FORMAT_INFO, content);
         }

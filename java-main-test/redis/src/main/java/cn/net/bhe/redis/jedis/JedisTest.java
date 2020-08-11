@@ -234,7 +234,7 @@ public class JedisTest {
      * @param pattern
      * @return
      */
-    public static Set<byte[]> scanResultGet(String pattern) {
+    public static Set<byte[]> scan(String pattern) {
         Jedis jedis = getJedis();
         Set<byte[]> keys = new HashSet<>();
         ScanParams params = new ScanParams().match(pattern);
@@ -246,6 +246,10 @@ public class JedisTest {
         } while (!nextCursor.equals("0"));
         jedis.close();
         return keys;
+    }
+    
+    @Test
+    public void scanTest() {
     }
 
     public static Long expire(String key, int seconds) {

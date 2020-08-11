@@ -18,7 +18,7 @@
 			<artifactId>ojdbc6</artifactId>
 			<version>10.2.0.1</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/lib/Oracle 10g 10.2.0.1.0 JDBC_ojdbc14.jar</systemPath>
+			<systemPath>${basedir}/lib/ojdbc6.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.weblogic</groupId>

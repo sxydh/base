@@ -13,12 +13,9 @@ spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: oracle.jdbc.driver.OracleDriver
-        url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
-        username: keep
+        url: jdbc:oracle:thin:@192.168.243.128:1521:orcl
+        username: tmp
         password: 123
-    devtools:
-        restart:
-            enabled: true
     redis:
         host: 127.0.0.1
         jedis:

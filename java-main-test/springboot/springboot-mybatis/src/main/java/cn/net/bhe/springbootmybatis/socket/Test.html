@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var socket = new WebSocket("ws://127.0.0.1:8080/websocket/test");
+	socket.onopen = e => {
+		console.log(e);
+	};
+	socket.onmessage = e => {
+		console.log(e.data);
+	};
+	socket.onclose = e => {
+		console.log(e);
+	};
+	socket.onerror = e => {
+		console.log(e);
+	};
+</script>
+</html>

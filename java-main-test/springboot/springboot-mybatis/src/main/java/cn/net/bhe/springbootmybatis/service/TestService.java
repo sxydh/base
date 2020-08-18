@@ -15,7 +15,6 @@ import cn.net.bhe.springbootmybatis.mapper.TestMapper;
  * 手动事务管理
  * @Autowired
  * private PlatformTransactionManager transactionManager;
- *  
  * 开启事务
  * TransactionStatus transactionStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
  * 提交事务
@@ -39,5 +38,5 @@ public class TestService {
     public List<Map<String, Object>> list(Map<String, Object> rq_m) {
         return testMapper.list(rq_m);
     }
-
+    
 }

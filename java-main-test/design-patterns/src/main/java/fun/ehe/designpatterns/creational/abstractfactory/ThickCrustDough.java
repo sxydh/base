@@ -1,0 +1,7 @@
+package fun.ehe.designpatterns.creational.abstractfactory;
+
+public class ThickCrustDough implements Dough {
+	public String toString() {
+		return "ThickCrust style extra thick crust dough";
+	}
+}

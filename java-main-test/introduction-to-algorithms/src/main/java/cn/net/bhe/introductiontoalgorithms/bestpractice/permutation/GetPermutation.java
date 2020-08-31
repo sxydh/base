@@ -1,5 +1,6 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
+import static cn.net.bhe.utils.main.PrintUtils.pln;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class GetPermutation {
 
 	@Test
 	public void getPermutation() {
-	    System.out.print(new GetPermutation().getPermutation(3, 3));
+	    pln(new GetPermutation().getPermutation(3, 3));
 	}
 
 	@SuppressWarnings({ "unchecked", "serial", "rawtypes" })

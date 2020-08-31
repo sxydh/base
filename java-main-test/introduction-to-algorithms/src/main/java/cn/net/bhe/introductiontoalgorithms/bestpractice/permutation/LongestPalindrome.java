@@ -1,5 +1,6 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
+import static cn.net.bhe.utils.main.PrintUtils.*;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ public class LongestPalindrome {
     public void centerExtend() {
         String s = "babad";
         if (s == null || s.length() < 1) {
-            System.out.println("");
             return;
         }
         Function<Object, Integer> extend = obj -> {
@@ -39,7 +39,7 @@ public class LongestPalindrome {
                 end = i + len / 2;
             }
         }
-        System.out.println(s.substring(start, end + 1));
+        pln(s.substring(start, end + 1));
     }
     
     /*
@@ -93,7 +93,7 @@ public class LongestPalindrome {
             }
         }
         int beginIndex = (index - max) / 2;
-        System.out.println(origin.substring(beginIndex, beginIndex + max));
+        pln(origin.substring(beginIndex, beginIndex + max));
     }
     
 }

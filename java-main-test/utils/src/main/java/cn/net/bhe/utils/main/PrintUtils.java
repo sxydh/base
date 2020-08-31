@@ -7,8 +7,19 @@ public enum PrintUtils {
         System.out.print(obj);
     }
 
-    public static void pln(Object obj) {
-        System.out.println(obj);
+    public static void pln(Object... objs) {
+        if (objs == null || objs.length == 0) {
+            System.out.println();
+            return;
+        }
+        if (objs.length > 1) {
+            try {
+                Thread.sleep((Integer) objs[1] * 1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(objs[0]);
     }
 
     public static void pm(Object obj) {

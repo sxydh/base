@@ -11,6 +11,6 @@ package cn.net.bhe.basics.jvm.classload;
  * ▪ 卸载(Unloading)
  * 其中验证、准备、解析3个部分统称为连接(Linking)。
  */
-public class App {
+public class __Index__ {
 
 }

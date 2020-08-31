@@ -1,6 +1,7 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
 import java.util.ArrayList;
+import static cn.net.bhe.utils.main.PrintUtils.pln;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,8 +14,9 @@ public class FourSum {
     
     @Test
     public void fourSum() {
-        System.out.println(new FourSum().fourSum(new int[] { -3, -2, -1, 0, 0, 1, 2, 3 }, 0));
+        pln(new FourSum().fourSum(new int[] { -3, -2, -1, 0, 0, 1, 2, 3 }, 0));
     }
+    
     public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();

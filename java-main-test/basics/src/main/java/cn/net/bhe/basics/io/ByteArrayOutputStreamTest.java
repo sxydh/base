@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 对应地，有{@link java.io.ByteArrayInputStream}
+ */
 public class ByteArrayOutputStreamTest {
     
     static Logger log = LoggerFactory.getLogger(ByteArrayOutputStreamTest.class);

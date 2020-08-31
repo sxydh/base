@@ -1,14 +1,14 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.math;
 
+import static cn.net.bhe.utils.main.PrintUtils.pln;
+
+import org.junit.jupiter.api.Test;
+
 /**
  * 阶乘末尾零的个数
  */
 public class TrailingZeroes {
     
-    public static void main(String[] args) {
-        
-    }
-
     /*
      * ret = n!中因子5和2共同出现的次数，即ret = Math.min(cnt5, cnt2)，所以只统计因子5的个数即可
      * 
@@ -20,7 +20,12 @@ public class TrailingZeroes {
      * 第二次统计因子5的个数，ret += k2，k2 = (5*5*k2)/5² = n/5²
      * 依此类推直到n/5ⁿ = 0
      */
-    public int doTrailingZeroes(int n) {
+    @Test
+    public void binarySearch() {
+        pln(trailingZeroes(9));
+    }
+    
+    public int trailingZeroes(int n) {
         int ret = 0;
         while (n != 0) {
             ret += (n /= 5);

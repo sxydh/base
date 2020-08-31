@@ -1,5 +1,6 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
+import static cn.net.bhe.utils.main.PrintUtils.pln;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class GenerateParenthesis {
     @Test
     public void generateParenthesis() {
         List<String> list = generateParenthesis(5);
-        System.out.println(list);
+        pln(list);
     }
     
     public static List<String> generateParenthesis(int n) {

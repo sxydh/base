@@ -30,6 +30,7 @@ public class Atoi {
     public void fsa() {
         pln(new Atoi().fsa("-91283472332"));
     }
+    
     public int fsa(String str) {
         Function<Character, Integer> getCol = new Function<Character, Integer>() {
             @Override
@@ -70,6 +71,7 @@ public class Atoi {
     public void atoi() {
         pln(new Atoi().atoi("-91283472332"));
     }
+    
     public int atoi(String str) {
         str = str.trim();
         if (str.isEmpty()) {

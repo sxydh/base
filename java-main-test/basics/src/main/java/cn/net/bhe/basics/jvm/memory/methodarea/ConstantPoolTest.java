@@ -1,6 +1,7 @@
-package cn.net.bhe.basics.jvm.other;
+package cn.net.bhe.basics.jvm.memory.methodarea;
 
 import org.junit.jupiter.api.Test;
+import static cn.net.bhe.utils.main.PrintUtils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,16 +25,38 @@ public class ConstantPoolTest {
     
     static Logger log = LoggerFactory.getLogger(ConstantPoolTest.class);
     
-    /**
+    /*
+     * 字面量缓存
+     */
+    @Test
+    public void literal() {
+        // 类
+        class HelloJava {
+            String string = "Hello Java";
+        }
+        pln("Hello Java" == new HelloJava().string); // true
+        
+        // 方法
+        String a1 = "a";
+        String a2 = "a";
+        pln(a1 == a2); // true
+    }
+    
+    /*
+     * String的intern()方法
+     * 
      * intern优先返回常量池中的字符串对象，如果不存在的话返回堆上的字符串对象，并将该对象加到常量池。
-     * 注意jvm会将字面量存入常量池。
      */
     @Test
     public void internTest() {
-        String java = new String("java"); // 堆上产生java对象, 常量池产生java对象(jvm会将字面量存入常量池)
-        log.info("{}", java.intern() == java); // false
+        // 堆上产生java对象, 常量池产生java对象
+        // intern()返回常量池已存在的java对象
+        String java = new String("java"); 
+        pln(java.intern() == java); // false
         
+        // 堆上产生java对象
+        // intern()复用堆上的java对象
         String javw = new StringBuilder("ja").append("vw").toString();
-        log.info("{}", javw.intern() == javw);
+        pln(javw.intern() == javw); // true
     }
 }

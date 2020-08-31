@@ -35,15 +35,29 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public enum IOUtils {
-    ;
+public class IOUtils {
     static Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
     
-    public static void main(String[] args) {
-        
+    @Test
+    public void test() {
+    }
+    
+    public static void copy(File src, File dest) {
+        try (InputStream is = new FileInputStream(src); 
+             OutputStream os = new FileOutputStream(dest)) 
+        {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
+        } catch (IOException io) {
+            LOGGER.error("", io);
+        }
     }
 
     public static int bytes2int(byte... bytes) {

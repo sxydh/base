@@ -1,6 +1,8 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
 import java.util.Arrays;
+
+import static cn.net.bhe.utils.main.PrintUtils.pln;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +25,9 @@ public class CoinExchange {
         int amount = 7;
         int optimal = -1;
         optimal = down2up(coins, amount);
-        System.out.println(optimal);
+        pln(optimal);
     }
+    
     static int down2up(int[] coins, int amount) {
         if (amount == 0) return 0;
         int[] dp = new int[amount + 1]; // dp[i]表示达到i用的最少硬币数，默认初始化为0
@@ -51,8 +54,9 @@ public class CoinExchange {
         int amount = 3;
         int optimal = -1;
         optimal = up2down(coins, amount, new HashMap<>());
-        System.out.println(optimal);
+        pln(optimal);
     }
+    
     static int up2down(int[] coins, int amount, Map<Integer, Integer> optimalMap) {
         if (amount == 0) {
             return 0;

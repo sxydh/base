@@ -30,6 +30,7 @@ public class SocketClient {
                         InputStreamReader isReader = new InputStreamReader(socket.getInputStream());
                         BufferedReader bfReader = new BufferedReader(isReader);
                         while (!socket.isClosed()) {
+                            // readLine()遇到换行符或EOF前会保持阻塞，这里的EOF例如socket关闭
                             String msg = bfReader.readLine();
                             log.info("从{}获得消息：{}", socket.getRemoteSocketAddress(), msg);
                         }

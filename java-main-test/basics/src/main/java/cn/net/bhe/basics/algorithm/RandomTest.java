@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 /**
  * 随机数
  */
-public class Rand {
-    static Logger log = LoggerFactory.getLogger(Rand.class);
+public class RandomTest {
+    static Logger log = LoggerFactory.getLogger(RandomTest.class);
 
     /**
      * java.util.Random

@@ -1,6 +1,7 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
 import java.util.ArrayList;
+import static cn.net.bhe.utils.main.PrintUtils.pln;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class CombinationSum {
     @Test
     public void combinationSum(){
         List<List<Integer>> ans = combinationSum(new int[] { 1 }, 1);
-        System.out.println(ans);
+        pln(ans);
     }
 
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {

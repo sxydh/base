@@ -13,7 +13,7 @@ public class LambdaTest {
      */
     @Test
     public void simplifiedAnonymous() {
-        Interfac interfac = string -> System.out.println(string);
+        Interfac interfac = string -> System.out.println(string); // 或(String string) -> System.out.println(string)
         interfac.method("lambda");
         
         // 相当于以下

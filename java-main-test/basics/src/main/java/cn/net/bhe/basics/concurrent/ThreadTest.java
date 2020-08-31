@@ -165,7 +165,7 @@ public class ThreadTest {
      * @see java.lang.Object#notifyAll()
      */
     @Test
-    public void await() {
+    public void wai() {
         // 利用wait()实现特定线程优先执行
         // 其它经典例子https://www.programcreek.com/2009/02/notify-and-wait-example/
         Function<Object, Object> print = new Function<Object, Object>() {
@@ -199,6 +199,14 @@ public class ThreadTest {
             }
         }
         print.apply(new Date());
+    }
+    
+    /**
+     * 底层实现是调用wait()
+     */
+    @Test
+    public void join() {
+        
     }
 
     /**
@@ -237,6 +245,21 @@ public class ThreadTest {
     @Test
     public void notif() {
 
+    }
+    
+    /**
+     * 让出CPU时间
+     */
+    @Test
+    public void yield() {
+        
+    }
+    
+    /**
+     * 挂起线程，只有resume()才能唤醒
+     */
+    @Test
+    public void suspend() {
     }
 
 }

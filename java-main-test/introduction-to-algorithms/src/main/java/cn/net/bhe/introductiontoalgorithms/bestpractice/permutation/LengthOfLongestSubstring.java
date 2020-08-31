@@ -1,12 +1,17 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.permutation;
 
+import static cn.net.bhe.utils.main.PrintUtils.pln;
+
+import org.junit.jupiter.api.Test;
+
 /**
  * 无重复字符子串的最大长度
  */
 public class LengthOfLongestSubstring {
 
-    public static void main(String[] args) {
-
+    @Test
+    public void lengthOfLongestSubstring() {
+        pln(lengthOfLongestSubstring("aakjdskjksfjeeej"));
     }
     
     public static int lengthOfLongestSubstring(String s) {

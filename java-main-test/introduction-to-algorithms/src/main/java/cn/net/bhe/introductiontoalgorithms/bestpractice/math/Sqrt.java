@@ -1,18 +1,22 @@
 package cn.net.bhe.introductiontoalgorithms.bestpractice.math;
 
+import org.junit.jupiter.api.Test;
+import static cn.net.bhe.utils.main.PrintUtils.*;
+
 /**
  * 求平方根
  */
 public class Sqrt {
     
-    public static void main(String args[]) {
-        System.out.println(newtonRaphson(2147395599));
-    }
-    
     /*
      * 牛顿迭代法，理论依据是泰勒展开式
      * 详见https://www.guokr.com/question/461510/
      */
+    @Test
+    public void newtonRaphson() {
+        pln(newtonRaphson(9));
+    }
+    
     public static double newtonRaphson(double x) {
         double err = 1e-15;
         double approach = x;
@@ -25,6 +29,11 @@ public class Sqrt {
      * 递归求解，只保留整数
      * 详见https://leetcode-cn.com/problems/sqrtx/solution/x-de-ping-fang-gen-by-leetcode/
      */
+    @Test
+    public void recursion() {
+        pln(recursion(9));
+    }
+    
     public static int recursion(int x) {
         if (x < 2) return x;
         int left = recursion(x >> 2) << 1;
@@ -35,6 +44,11 @@ public class Sqrt {
     /*
      * 二分查找，只保留整数
      */
+    @Test
+    public void binarySearch() {
+        pln(binarySearch(9));
+    }
+    
     public static int binarySearch(int x) {
         // 当x>=2时，它的整数平方根一定小于x/2且大于 0，由于a一定是整数，此问题可以转换成在有序整数集中寻找一个特定值，因此可以使用二分查找。
         if (x < 2) return x;

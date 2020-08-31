@@ -62,6 +62,7 @@ public class SocketServer {
         public void run() {
             String message;
             try {
+                // readLine()遇到换行符或EOF前会保持阻塞，这里的EOF例如socket关闭
                 while ((message = bfReader.readLine()) != null) {
                     log.info("收到客户端{}消息：{}", client.getRemoteSocketAddress(), message);
                     tellEveryone(message);

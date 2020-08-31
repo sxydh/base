@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static cn.net.bhe.utils.main.PrintUtils.*;
 
-public class __Elem__ {
-    static final Logger log = LoggerFactory.getLogger(__Elem__.class);
+public class __App__ {
+    static final Logger log = LoggerFactory.getLogger(__App__.class);
     
     /*
      * 位合并

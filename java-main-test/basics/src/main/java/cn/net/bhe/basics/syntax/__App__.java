@@ -3,7 +3,7 @@ package cn.net.bhe.basics.syntax;
 import org.junit.jupiter.api.Test;
 import static cn.net.bhe.utils.main.PrintUtils.*;
 
-public class __Elem__ {
+public class __App__ {
     
     @Test
     // try catch finally

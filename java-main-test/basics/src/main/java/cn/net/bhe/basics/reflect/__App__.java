@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import cn.net.bhe.utils.main.DateUtils;
 
-public class __Elem__ {
+public class __App__ {
     
     /*
      * 实例化

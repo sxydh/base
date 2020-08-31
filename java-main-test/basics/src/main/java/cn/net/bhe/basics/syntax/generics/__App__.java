@@ -21,7 +21,7 @@ package cn.net.bhe.basics.syntax.generics;
  * ▪ 类型参数能被用来声明返回值类型，并且能作为泛型方法得到的实际参数类型的占位符。
  * ▪ 泛型方法体的声明和其他方法一样。注意类型参数只能代表引用型类型，不能是原始类型(像int，double，char的等)。
  */
-public class __Elem__ {
+public class __App__ {
     
     /*
      * 类上的泛型

@@ -2,7 +2,7 @@ package cn.net.bhe.utils.main;
 
 public enum PrintUtils {
     ;
-
+    
     public static void p(Object obj) {
         System.out.print(obj);
     }
@@ -19,9 +19,9 @@ public enum PrintUtils {
                 e.printStackTrace();
             }
         }
-        System.out.println(objs[0]);
+        System.out.println(String.valueOf(objs[0]));
     }
-
+    
     public static void pm(Object obj) {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
         for (int i = st.length - 1; i > 1; i--) {

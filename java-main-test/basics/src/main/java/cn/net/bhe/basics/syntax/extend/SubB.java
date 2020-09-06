@@ -1,7 +1,7 @@
 package cn.net.bhe.basics.syntax.extend;
 
 public class SubB extends Super {
-    String data = "SubB data";
+    String data = "subb data";
 
     @Override
     public String getData() {

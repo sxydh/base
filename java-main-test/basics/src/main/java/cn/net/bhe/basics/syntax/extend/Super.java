@@ -1,15 +1,16 @@
 package cn.net.bhe.basics.syntax.extend;
+import static cn.net.bhe.utils.main.PrintUtils.*;
 
 public class Super {
 
-    String data = "Super data";
+    String data = "super data";
 
     Super() {
-        overrideMe();
+        this.m1();
     }
-
-    public void overrideMe() {
-        System.out.println("Call Super.overrideMe()");
+    
+    public void m1() {
+        pln(new Object() {}.getClass().getEnclosingMethod());
     }
 
     public String getData() {

@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -23,16 +25,37 @@ import org.slf4j.LoggerFactory;
  * 2、重新实现线程池
  * 3、利用Future的get接口
  */
-public class ExecutorServiceTest {
-
-    static Logger log = LoggerFactory.getLogger(ExecutorServiceTest.class);
+public class ThreadPoolExecutorTest {
+    static Logger log = LoggerFactory.getLogger(ThreadPoolExecutorTest.class);
+    static Collection<Callable<Object>> tasks;
+    static {
+        tasks = new ArrayList<>();
+        IntStream.range(0, 10).forEach((int i) -> {
+            tasks.add(new Callable<Object>() {
+                @Override
+                public Map<String, Object> call() throws Exception {
+                    TimeUnit.SECONDS.sleep(2);
+                    // if ("".length() == 0) throw new RuntimeException("业务异常");
+                    return Map.of(Thread.currentThread().getName(), new Random().nextInt());
+                }
+            });
+        });
+    }
     
     /**
-     * 立即停止线程池的所有任务，但不保证都能终止成功，建议用isTerminated探测状态
+     * 立即停止线程池，不再接收新的任务，也不会执行任务队列中的任务，中断所有执行中的任务。
+     * 但不保证都能终止成功，建议用isTerminated探测状态
      */
     @Test
     public void shutdownNow() {
-
+        new ThreadPoolExecutor(
+                10, 
+                10, 
+                10, 
+                TimeUnit.MICROSECONDS, 
+                new LinkedBlockingQueue<Runnable>(10), 
+                Executors.defaultThreadFactory(), 
+                new AbortPolicy()).shutdownNow();
     }
     
     /**
@@ -40,11 +63,19 @@ public class ExecutorServiceTest {
      */
     @Test
     public void submit() {
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                10, 
+                10, 
+                10, 
+                TimeUnit.MICROSECONDS, 
+                new LinkedBlockingQueue<Runnable>(10), 
+                Executors.defaultThreadFactory(), 
+                new AbortPolicy());
         try {
             long start = System.currentTimeMillis();
             List<Future<Object>> futures = new ArrayList<Future<Object>>();
             for (Callable<Object> task : tasks) {
-                futures.add(executorService.submit(task));
+                futures.add(threadPoolExecutor.submit(task));
             }
             log.info("提交任务完毕");
             int suc = 0;
@@ -60,7 +91,7 @@ public class ExecutorServiceTest {
         } catch (Exception e) {
             log.error("", e);
         }
-        executorService.shutdown();
+        threadPoolExecutor.shutdown();
     }
     
     /**
@@ -77,9 +108,17 @@ public class ExecutorServiceTest {
      */
     @Test
     public void invokeAll() {
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                10, 
+                10, 
+                10, 
+                TimeUnit.MICROSECONDS, 
+                new LinkedBlockingQueue<Runnable>(10), 
+                Executors.defaultThreadFactory(), 
+                new AbortPolicy());
         try {
             long start = System.currentTimeMillis();
-            List<Future<Object>> futures = executorService.invokeAll(tasks, 4, TimeUnit.SECONDS); // min(所有任务完成时间，限时)到达之前处于阻塞状态，限时之后没有完成的任务将被取消
+            List<Future<Object>> futures = threadPoolExecutor.invokeAll(tasks, 4, TimeUnit.SECONDS); // min(所有任务完成时间，限时)到达之前处于阻塞状态，限时之后没有完成的任务将被取消
             int suc = 0;
             for (Future<Object> future : futures) {
                 try {
@@ -93,7 +132,7 @@ public class ExecutorServiceTest {
         } catch (Exception e) {
             log.error("", e);
         }
-        executorService.shutdown();
+        threadPoolExecutor.shutdown();
     }
     
     /**
@@ -104,28 +143,4 @@ public class ExecutorServiceTest {
 
     }
     
-    static ExecutorService executorService;
-    static Collection<Callable<Object>> tasks;
-    static {
-        executorService = Executors.newFixedThreadPool(3);
-        tasks = new ArrayList<>();
-        tasks.add(new Callable<Object>() {
-            @Override
-            public Map<String, Object> call() throws Exception {
-                Random random = new Random();
-                int ret = random.nextInt();
-                TimeUnit.SECONDS.sleep(40);
-                return Map.of(Thread.currentThread().getName(), ret);
-            }
-        });
-        tasks.add(new Callable<Object>() {
-            @Override
-            public Map<String, String> call() throws Exception {
-                String ret = UUID.randomUUID().toString();
-                TimeUnit.SECONDS.sleep(30);
-//                if (ret != null) throw new RuntimeException("业务异常");
-                return Map.of(Thread.currentThread().getName(), ret);
-            }
-        });
-    }
 }

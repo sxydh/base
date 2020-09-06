@@ -29,6 +29,9 @@ public class __App__ {
         }
     }
     
+    /*
+     * 访问方法并调用
+     */
     @Test
     public void invoke() {
         try {
@@ -42,7 +45,7 @@ public class __App__ {
             e.printStackTrace();
         }
     }
-
+    
 }
 
 @SuppressWarnings("unused")

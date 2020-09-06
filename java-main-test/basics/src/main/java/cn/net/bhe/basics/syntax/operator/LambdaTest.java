@@ -1,5 +1,6 @@
 package cn.net.bhe.basics.syntax.operator;
 
+import static cn.net.bhe.utils.main.PrintUtils.*;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -20,11 +21,12 @@ public class LambdaTest {
         interfac = new Interfac() {
             @Override
             public void method(String string) {
-                System.out.println(string);
+                pln(string);
             }
         };
         interfac.method("anonymous");
     }
+    
 }
 
 interface Interfac {

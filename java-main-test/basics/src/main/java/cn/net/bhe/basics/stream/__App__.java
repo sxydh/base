@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-public class Common {
+public class __App__ {
     
-    /**
+    /*
+     * 查找
+     * 
      * int array是否存在某个value
      */
     @Test
@@ -19,7 +21,9 @@ public class Common {
         System.out.println(result);
     }
     
-    /**
+    /*
+     * 转换
+     * 
      * 嵌套List展开为一个List
      */
     @Test
@@ -32,7 +36,9 @@ public class Common {
         System.out.println(outer.stream().flatMap(List::stream).collect(Collectors.toList()));
     }
     
-    /**
+    /*
+     * 转换
+     * 
      * 对象List转字段List
      */
     @Test
@@ -47,7 +53,9 @@ public class Common {
         System.out.println(listint);
     }
     
-    /**
+    /*
+     * 查找
+     * 
      * 搜索(list)
      */
     @Test

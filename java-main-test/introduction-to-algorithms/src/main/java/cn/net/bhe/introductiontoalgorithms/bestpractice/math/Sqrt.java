@@ -11,10 +11,17 @@ public class Sqrt {
     /*
      * 牛顿迭代法，理论依据是泰勒展开式
      * 详见https://www.guokr.com/question/461510/
+     * 
+     * 例求A的K次方根
+     * 
+     * 令解为X0，
+     * 令下一个逼近X0点为Xn+1，当前点为Xn，
+     * 则有：
+     * Xn+1 = (K - 1) * Xn / K + A / (K * Xn ^ (k - 1))
      */
     @Test
     public void newtonRaphson() {
-        pln(newtonRaphson(9));
+        pln(newtonRaphson(10));
     }
     
     public static double newtonRaphson(double x) {

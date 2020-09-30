@@ -34,11 +34,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
+					<artifactId>slf4j-log4j12</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -92,15 +88,15 @@
 		</dependency>
 	</dependencies>
 	<build>
-	<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.8.0</version>
-			<configuration>
-				<release>11</release>  <!--or <release>10</release> -->
-			</configuration>
-		</plugin>
-	</plugins>
-</build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>15</release>  <!--or <release>10</release> -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

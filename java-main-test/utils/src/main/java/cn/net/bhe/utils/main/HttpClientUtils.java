@@ -52,6 +52,20 @@ public enum HttpClientUtils {
         }
         return result;
     }
+    
+    public static String postWithJson(Map<String, Object> map, Object... objs) {
+        StringBuilder url = new StringBuilder("http://");
+        if (objs == null || objs.length == 0) {
+            url.append("localhost:8080/");
+        } else if (objs.length == 3) {
+            url.append(objs[0]).append(':').append(objs[1]).append('/').append(objs[2]);
+        } else if (objs.length == 2) {
+            url.append("localhost:").append(objs[0]).append('/').append(objs[1]);
+        } else if (objs.length == 1) {
+            url.append("localhost:8080/").append(objs[0]);
+        }
+        return postWithJson(url.toString(), JsonUtils.string(map));
+    }
 
     public static String postWithJson(String url, String jsonStr) {
         String result = "";

@@ -39,4 +39,9 @@ public class TestService {
         return testMapper.list(rq_m);
     }
     
+    @Transactional
+    public void update(Map<String, Object> rq_m) {
+        testMapper.update(rq_m);
+    }
+    
 }

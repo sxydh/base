@@ -10,7 +10,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: oracle.jdbc.driver.OracleDriver
         url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
-        username: keep
+        username: bhe
         password: 123
     devtools:
         restart:

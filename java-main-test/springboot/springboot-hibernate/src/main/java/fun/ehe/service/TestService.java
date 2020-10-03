@@ -28,5 +28,10 @@ public class TestService {
     public Map<String, Object> getMap(Map<String, Object> rq_m) {
         return testDao.getMap(rq_m);
     }
+    
+    @Transactional
+    public int delete(int id) {
+    	return testDao.delete(id);
+    }
 
 }

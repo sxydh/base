@@ -24,4 +24,8 @@
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
 	</root>
+	<logger name="org.springframework.cloud.sleuth" level="trace" additivity="false">
+		<appender-ref ref="console" />
+		<appender-ref ref="file" />
+	</logger>
 </configuration>

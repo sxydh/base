@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ControllerTest {
+public class ControllerUser {
 
-	static final Logger Logger = LoggerFactory.getLogger(ControllerTest.class);
+	static final Logger Logger = LoggerFactory.getLogger(ControllerUser.class);
 
 	@Autowired
-	ServiceTest serviceTest;
+	ServiceUser serviceUser;
 
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, path = { "/list", "/" }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Object list(HttpServletRequest httpServletRequest) {
-		return serviceTest.list();
+	/**
+	 * 本地测试接口
+	 * @param httpServletRequest
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, path = { "/test", "/" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Object test(HttpServletRequest httpServletRequest) {
+		return serviceUser.test();
 	}
 }

@@ -1,8 +1,16 @@
 package cn.net.bhe.springcloudalishopuser;
 
+import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
+import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.stereotype.Component;
+
+import cn.net.bhe.springcloudalicommon.bean.Order;
+import cn.net.bhe.utils.main.JsonUtils;
 
 /**
  * 概述：
@@ -25,9 +33,20 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient	// 开启Nacos的服务发现
 @SpringBootApplication
 public class __SpringCloudAliShopUser__ {
+    
+    static final Logger log = LoggerFactory.getLogger(__SpringCloudAliShopUser__.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(__SpringCloudAliShopUser__.class, args);
 	}
+	
+    @Component
+    @RocketMQMessageListener(consumerGroup = "shopuser", topic = "topic-order")
+    public static class SmsService implements RocketMQListener<Order> {
+        @Override
+        public void onMessage(Order order) {
+            log.info("收到消息：{}", JsonUtils.string(order));
+        }
+    }
 
 }

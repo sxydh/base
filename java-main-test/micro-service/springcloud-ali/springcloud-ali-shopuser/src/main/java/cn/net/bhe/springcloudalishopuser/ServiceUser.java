@@ -9,15 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceTest {
+public class ServiceUser {
 	
-	static final Logger LOGGER = LoggerFactory.getLogger(ServiceTest.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(ServiceUser.class);
 	
 	@Autowired
-	DaoTest daoTest;
+	DaoUser daoUser;
 	
-	public List<Map<String, Object>> list() {
-		return daoTest.list();
+	public List<Map<String, Object>> test() {
+		return daoUser.test();
 	}
 
 }

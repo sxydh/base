@@ -32,7 +32,7 @@ public class ServiceProduct {
 	    return daoProduct.find(Product.class, id);
 	}
 	
-	/**
+	/*
 	 * 初始化测试产品列表
 	 */
 	@EventListener(ApplicationReadyEvent.class)
@@ -45,6 +45,23 @@ public class ServiceProduct {
             product.setPrice(new Random().nextInt(100));
             daoProduct.merge(product);
         }
+    }
+	
+	/**
+	 * 减库存
+	 * @param id
+	 * @param reduce
+	 * @return
+	 */
+	@Transactional
+    public Product productReduce(String id, int reduce) {
+        Product product = daoProduct.find(Product.class, id);
+        if (product.getStock() == null || product.getStock() < reduce) {
+            throw new RuntimeException("库存不足");
+        }
+        product.setStock(product.getStock() - reduce);
+        daoProduct.merge(product);
+        return product;
     }
 
 }

@@ -48,5 +48,5 @@ public class __SpringCloudAliShopUser__ {
             log.info("收到消息：{}", JsonUtils.string(order));
         }
     }
-
+    
 }

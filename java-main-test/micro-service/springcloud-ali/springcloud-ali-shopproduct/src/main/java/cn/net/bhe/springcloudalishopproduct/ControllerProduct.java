@@ -39,5 +39,19 @@ public class ControllerProduct {
     public Object productGetById(HttpServletRequest httpServletRequest, @PathVariable(required = true) String id) {
         return serviceProduct.productGetById(id);
     }
+    
+    /**
+     * 减库存
+     * @param httpServletRequest
+     * @param id
+     * @param num
+     * @return
+     */
+    @RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, path = { "/product/reduce/{id}/{num}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Object productReduce(HttpServletRequest httpServletRequest, 
+            @PathVariable(required = true, name = "id") String id, 
+            @PathVariable(required = true, name = "num") int num) {
+        return serviceProduct.productReduce(id, num);
+    }
 
 }

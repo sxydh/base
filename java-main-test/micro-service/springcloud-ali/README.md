@@ -1,5 +1,5 @@
 # Profile
-Spring Cloud Alibaba致力于提供微服务开发的一站式解决方案，包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。
+ Spring Cloud Alibaba致力于提供微服务开发的一站式解决方案，包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。
 
 # Component
 Spring Cloud Alibaba的主要组件
@@ -68,6 +68,8 @@ Spring Cloud Alibaba的主要组件
     * RestTemplate的生成方法上加入@LoadBalanced即可
     * 可以通过编辑配置文件来设置均衡策略
       ```properties
+      # 配置Ribbon的负载均衡策略
+      # service-shopproduct为调用的提供者名称
       service-shopproduct.ribbon.NFLoadBalancerRuleClassName=com.netflix.loadbalancer.RoundRobinRule
       ```
   * [*基于Feign的服务调用*](./springcloud-ali-shoporder/src/main/java/cn/net/bhe/springcloudalishoporder/__SpringCloudAliShopOrder__.java)。Feign是Spring Cloud提供的一个声明式的伪Http客户端，它使得调用远程服务就像调用本地服务一样简单，只需要创建一个接口并添加一个注解即可。Nacos很好的兼容了Feign，Feign默认集成了Ribbon，所以在Nacos下使用Fegin默认就实现了负载均衡的效果。
@@ -263,7 +265,7 @@ Zipkin的主要作用是数据的收集、存储、查找和展现。
       * [*下载*](https://github.com/apache/rocketmq-externals/releases)rocketmq-console
       * 修改配置文件
         ```properties
-        # 修改配置文件rocketmq-console\src\main\resources\application.properties
+        # 修改配置文件rocketmq-console/src/main/resources/application.properties
         server.port=7777 # 项目启动后的端口号
         rocketmq.config.namesrvAddr=192.168.109.131:9876 # nameserv的地址，注意防火墙要开启9876端口
         ```
@@ -314,5 +316,31 @@ Zipkin的主要作用是数据的收集、存储、查找和展现。
               }
           }
           ```
+  * NacosConfig配置管理服务  
+    该服务可以提供配置的统一管理、方便维护、实时更新等功能，[*详见*](https://github.com/alibaba/spring-cloud-alibaba/wiki/Nacos-config)。
+    * 简单使用
+      * shopuser微服务引入依赖
+        ```xml
+		    <dependency>
+		    	<groupId>com.alibaba.cloud</groupId>
+		    	<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+		    </dependency>
+        ```
+      * 新增配置文件[*bootstrap.yml*](./springcloud-ali-shopuser/src/main/resources/bootstrap.yml)
+      * nacos控制台新增配置
+        * Data Id：application.name + profiles.active + file-extention
+        * Group：DEFAULT_GROUP
+        * 配置内容：和application.properties一致
+      * 注释掉application.properties所有内容，若可以启动shopuser微服务，则代表nacos的配置管理生效
+    * [*配置动态刷新*](./springcloud-ali-shopuser/src/main/java/cn/net/bhe/springcloudalishopuser/ControllerUser.java)  
+      Nacos Config Starter默认为所有获取数据成功的Nacos的配置项添加了监听功能，在监听到服务端配置发生变化时会实时触发org.springframework.cloud.context.refresh.ContextRefresher的refresh方法。
+      * 添加动态刷新注解```@RefreshScope```
+      * 添加获取值注解```@Value("${myconfig.var1:empty}")```
+      * Nacos控制台新增配置```myconfig.var1=v1```
+      * 访问[*API*](http://127.0.0.1:18011/myconfig/var1)查看效果
+  * Seata分布式事务
+    * 
+
+
       
         

@@ -43,6 +43,7 @@ public class ServiceProduct {
             product.setId(String.valueOf(i));
             product.setName("产品".concat(String.valueOf(i)));
             product.setPrice(new Random().nextInt(100));
+            product.setStock(10);
             daoProduct.merge(product);
         }
     }

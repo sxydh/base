@@ -1,16 +1,44 @@
 /*
-call()
-The call() method calls a function with a given this value and arguments provided individually.
-Note: While the syntax of this function is almost identical to that of apply(), the fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+apply()
+apply() 方法调用一个具有给定this值的函数，以及以一个数组（或类数组对象）的形式提供的参数。
+注意：call()方法的作用和 apply() 方法类似，区别就是call()方法接受的是参数列表，而apply()方法接受的是一个参数数组。
 
-Syntax
-function.call(thisArg, arg1, arg2, ...)
+func.apply(thisArg, [argsArray])
+thisArg
+必选的。在 func 函数运行时使用的 this 值。请注意，this可能不是该方法看到的实际值：如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，原始值会被包装。
+argsArray
+可选的。一个数组或者类数组对象，其中的数组元素将作为单独的参数传给 func 函数。如果该参数的值为 null 或  undefined，则表示不需要传入任何参数。从ECMAScript 5 开始可以使用类数组对象。 浏览器兼容性 请参阅本文底部内容。
 
-Parameters
-thisArg Optional. The value of this provided for the call to a function. Note that this may not be the actual value seen by the method: if the method is a function in non-strict mode, null and undefined will be replaced with the global object and primitive values will be converted to objects.
-arg1, arg2, ... Optional. Arguments for the function.
+返回值
+调用有指定this值和参数的函数的结果。
 */
+// 示例：用 apply 将数组各项添加到另一个数组
+var array = ['a', 'b'];
+var elements = [0, 1, 2];
+array.push.apply(array, elements);
+console.info(array); // ["a", "b", 0, 1, 2]
+
+/*
+call()
+call() 方法使用一个指定的 this 值和单独给出的一个或多个参数来调用一个函数。
+注意：该方法的语法和作用与 apply() 方法类似，只有一个区别，就是 call() 方法接受的是一个参数列表，而 apply() 方法接受的是一个包含多个参数的数组。
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+
+语法
+function.call(thisArg, arg1, arg2, ...)
+thisArg
+可选的。在 function 函数运行时使用的 this 值。请注意，this可能不是该方法看到的实际值：如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，原始值会被包装。
+arg1, arg2, ...
+指定的参数列表。
+
+返回值
+使用调用者提供的 this 值和参数调用该函数的返回值。若该方法没有返回值，则返回 undefined。
+
+描述
+call() 允许为不同的对象分配和调用属于一个对象的函数/方法。
+call() 提供新的 this 值给当前调用的函数/方法。你可以使用 call 来实现继承：写一个方法，然后让另外一个新的对象来继承它（而不是在新对象中再写一次这个方法）。
+*/
+// 示例：使用 call 方法调用父构造函数
 function Product(name, price) {
   this.name = name;
   this.price = price;

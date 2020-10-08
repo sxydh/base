@@ -72,7 +72,8 @@ Spring Cloud Alibaba的主要组件
       # service-shopproduct为调用的提供者名称
       service-shopproduct.ribbon.NFLoadBalancerRuleClassName=com.netflix.loadbalancer.RoundRobinRule
       ```
-  * [*基于Feign的服务调用*](./springcloud-ali-shoporder/src/main/java/cn/net/bhe/springcloudalishoporder/__SpringCloudAliShopOrder__.java)。Feign是Spring Cloud提供的一个声明式的伪Http客户端，它使得调用远程服务就像调用本地服务一样简单，只需要创建一个接口并添加一个注解即可。Nacos很好的兼容了Feign，Feign默认集成了Ribbon，所以在Nacos下使用Fegin默认就实现了负载均衡的效果。
+  * [*基于Feign的服务调用*](./springcloud-ali-shoporder/src/main/java/cn/net/bhe/springcloudalishoporder/__SpringCloudAliShopOrder__.java)。  
+  Feign是Spring Cloud提供的一个声明式的伪Http客户端，它使得调用远程服务就像调用本地服务一样简单，只需要创建一个接口并添加一个注解即可。Nacos很好的兼容了Feign，Feign默认集成了Ribbon，所以在Nacos下使用Fegin默认就实现了负载均衡的效果。
     * 主类上添加注解```@EnableFeignClients```
     * 创建一个service，并使用Fegin实现微服务调用
       ```java
@@ -339,7 +340,7 @@ Zipkin的主要作用是数据的收集、存储、查找和展现。
       * Nacos控制台新增配置```myconfig.var1=v1```
       * 访问[*API*](http://127.0.0.1:18011/myconfig/var1)查看效果
   * Seata分布式事务
-    * 
+    * 待续
 
 
       

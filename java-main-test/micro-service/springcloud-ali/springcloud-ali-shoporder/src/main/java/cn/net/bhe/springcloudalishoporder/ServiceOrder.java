@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 
+import cn.net.bhe.springcloudalicommon.bean.Order;
+import cn.net.bhe.springcloudalicommon.bean.Product;
+import cn.net.bhe.springcloudalishoporder.__SpringCloudAliShopOrder__.ProductService;
+
 @Service
 public class ServiceOrder {
 	
@@ -44,6 +48,26 @@ public class ServiceOrder {
 	public List<Map<String, Object>> fallbackForTest(Throwable throwable) {
 	    log.info("{}", throwable.getLocalizedMessage());
 	    return new ArrayList<Map<String, Object>>();  
+	}
+	
+	@Autowired
+	ProductService productService;
+	
+	@Transactional // 非全局事务
+	public Order order(Product product) {
+	    // 保存订单
+        Order order = new Order();
+        order.setUsrid("1");
+        order.setUsrname("测试用户");
+        order.setPid(product.getId());
+        order.setPname(product.getName());
+        order.setPprice(product.getPrice());
+        order.setNum(1);
+        daoOrder.merge(order);
+        
+        // 减库存
+        productService.productReduce(product.getId(), 1);
+        return order;
 	}
 	
 	@Transactional

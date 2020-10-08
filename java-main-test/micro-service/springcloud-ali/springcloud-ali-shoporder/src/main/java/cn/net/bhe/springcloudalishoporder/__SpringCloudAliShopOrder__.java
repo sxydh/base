@@ -80,8 +80,11 @@ public class __SpringCloudAliShopOrder__ {
     public interface ProductService {
         // 指定服务提供者的哪个方法
         // @FeignClient + @GetMapping就是一个完整的请求路径http://service-shopproduct/product/{pid}
-        @GetMapping(value = "/product/{pid}")
+        @GetMapping(value = "/product/{pid}") // 获取产品信息
         Product productGetById(@PathVariable("pid") String pid);
+        
+        @GetMapping(value = "/product/reduce/{pid}/{num}") // 减库存
+        Product productReduce(@PathVariable("pid") String pid, @PathVariable("num") int num);
     }
 
     /*
@@ -211,6 +214,13 @@ public class __SpringCloudAliShopOrder__ {
             return new ProductService() {
                 @Override
                 public Product productGetById(String pid) {
+                    log.error("", cause);
+                    Product product = new Product();
+                    return product;
+                }
+
+                @Override
+                public Product productReduce(String pid, int num) {
                     log.error("", cause);
                     Product product = new Product();
                     product.setId("-1");

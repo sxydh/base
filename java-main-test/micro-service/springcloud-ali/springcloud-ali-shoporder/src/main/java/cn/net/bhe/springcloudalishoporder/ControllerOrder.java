@@ -53,9 +53,11 @@ public class ControllerOrder {
 	 * @param pid
 	 * @return
 	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, path = { "/order/product/{pid}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(path = { "/order/product/{pid}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Object order(HttpServletRequest httpServletRequest, @PathVariable(required = true) String pid) {
 	    Object[] retAndServiceInstance = null;
+	    
+	    // 获取产品信息
 	    
 //	    // 自定义负载均衡
 //		retAndServiceInstance = customLoadBalanced("service-shopproduct", "/product/".concat(String.valueOf(pid)), Product.class);
@@ -70,19 +72,13 @@ public class ControllerOrder {
 	    retAndServiceInstance[0] = productService.productGetById(pid);
 	    retAndServiceInstance[1] = "feign";
 	 
-        // 生成订单
 		Product product = (Product) retAndServiceInstance[0];
-        Order order = new Order();
-        order.setUsrid("1");
-        order.setUsrname("测试用户");
-        order.setPid(product.getId());
-        order.setPname(product.getName());
-        order.setPprice(product.getPrice());
-        order.setNum(1);
-        serviceOrder.merge(order);
+		
+		// 下单
+		Order order = serviceOrder.order(product);
         
-        // 下单成功后发送消息
-        rocketMQTemplate.convertAndSend("topic-order", order);
+//        // 向订阅者发送消息
+//        rocketMQTemplate.convertAndSend("topic-order", order);
         
         return new Object[] { order, retAndServiceInstance[1] };
 	}

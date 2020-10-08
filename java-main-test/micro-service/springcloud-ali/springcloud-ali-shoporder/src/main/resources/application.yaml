@@ -1,0 +1,50 @@
+# see https://docs.spring.io/spring-boot/docs/2.0.9.RELEASE/reference/htmlsingle/#common-application-properties
+logging:
+  config: classpath:logback-spring.xml
+server:
+  port: 18031
+  servlet:
+    session:
+      timeout: 7200
+spring:
+  application:
+    name: service-shoporder
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    password: 123
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
+    username: bhe
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        format_sql: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      password: nacos
+      username: nacos
+    sentinel:
+      transport:
+        # sentinel控制台服务地址
+        dashboard: 127.0.0.1:8080
+        # 跟sentinel控制台通信地址，随意指定一个未占用的端口即可
+        port: 33562
+# 配置Ribbon的负载均衡策略
+service-shopproduct:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+feign:
+  sentinel:
+    # 开启Feign对Sentinel的支持
+    enabled: true
+rocketmq:
+  # RocketMQ服务的地址
+  name-server: 192.168.145.128:9876
+  producer:
+    # 生产者组
+    group: shoporder

@@ -36,13 +36,16 @@ public class ActivitiTest {
 
     /*
      * 用RepositoryService部署流程
+     * 部署后可在act_re_procdef查看相关信息
+     * 
+     * 供参考：可以重复部署，每次部署都会产生一个新版本记录
      */
     @Test
     public void deploy() {
         Deployment deployment = processEngine.getRepositoryService()
                 .createDeployment() 
                 .name("请假流程") 
-                .addClasspathResource("processes/MyProcess.bpmn") // bpmn文件支持
+                .addClasspathResource("processes/MyProcess.bpmn") // bpmn文件路径
                 .deploy();
         System.err.println("部署id：" + deployment.getId());
         System.err.println("部署名称：" + deployment.getName());
@@ -53,14 +56,17 @@ public class ActivitiTest {
      */
     @Test
     public void startProcessInstance() {
+        // 定义流程变量
+        // 流程变量会自动注入到bpmn文件中定义的表达式中，例如第一个任务assignee = ${user}，流程启动后assignee = 张三
         Map<String, Object> var = new HashMap<>();
-        var.put("天数", 4);
-        var.put("剩余假期", 12);
+        var.put("user", "张三");
         ProcessInstance processInstance = processEngine.getRuntimeService()
-                // 根据流程定义id启动
-                .startProcessInstanceById("myProcess_1:1:15150967-0e1e-11eb-b36e-005056c00001", var); 
                 // 根据流程key启动，key就是bpmn文件中定义的id
-//                .startProcessInstanceByKey("myProcess_1", var);
+                // 如果key对应的流程有多个版本，启动的将会是最新版本的流程
+                .startProcessInstanceByKey("myProcess_1", var);
+                // 根据流程定义id启动
+                // 供参考：流程定义id = 流程key_版本号_uuid
+//                .startProcessInstanceById("myProcess_1:1:15150967-0e1e-11eb-b36e-005056c00001", var); 
         System.err.println("流程实例id：" + processInstance.getId());
         System.err.println("流程定义id：" + processInstance.getProcessDefinitionId());
     }
@@ -75,6 +81,7 @@ public class ActivitiTest {
                 .createProcessInstanceQuery() 
                 .processInstanceId(processInstanceId)
                 .singleResult();
+        // 流程结束后，act_ru_execution对应的记录被移除，查询为空
         if (processInstance == null) {
             System.err.println("流程已经结束，id：" + processInstanceId);
         } else {
@@ -84,6 +91,7 @@ public class ActivitiTest {
 
     /*
      * 使用TaskService查询task
+     * 数据源于act_ru_task，表中存储的是等待执行链的第一个任务
      */
     @Test
     public void taskQuery() {
@@ -118,6 +126,7 @@ public class ActivitiTest {
 
     /*
      * 使用TaskService执行task
+     * 某个任务执行之后，act_ru_task对应的记录被移除，并插入对应的下一个任务
      */
     @Test
     public void complete() {

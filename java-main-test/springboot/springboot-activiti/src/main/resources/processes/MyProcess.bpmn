@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="myProcess_1" name="My process" isExecutable="true">
-    <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="one" activiti:assignee="${user}" activiti:candidateGroups="activitiTeam"></userTask>
-    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask2" name="two" activiti:assignee="${user}" activiti:candidateGroups="activitiTeam"></userTask>
-    <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
-    <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
-    <userTask id="usertask3" name="three" activiti:assignee="${user}"></userTask>
-    <sequenceFlow id="flow4" sourceRef="usertask3" targetRef="endevent1"></sequenceFlow>
+    <startEvent id="startid" name="开始"></startEvent>
+    <userTask id="eeid" name="员工申请" activiti:assignee="${assignee}" activiti:candidateGroups="activitiTeam"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startid" targetRef="eeid"></sequenceFlow>
+    <userTask id="mgrid" name="经理审批" activiti:assignee="${assignee}" activiti:candidateGroups="activitiTeam"></userTask>
+    <sequenceFlow id="flow2" sourceRef="eeid" targetRef="mgrid"></sequenceFlow>
+    <endEvent id="endid" name="结束"></endEvent>
+    <exclusiveGateway id="gwid" name="网关"></exclusiveGateway>
+    <sequenceFlow id="flow3" sourceRef="mgrid" targetRef="gwid"></sequenceFlow>
+    <sequenceFlow id="flow5" name="同意" sourceRef="gwid" targetRef="endid">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${verify==1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" name="拒绝" sourceRef="gwid" targetRef="eeid">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${verify==0}]]></conditionExpression>
+    </sequenceFlow>
+    <textAnnotation id="textannotation1">
+      <text>Enter your text here</text>
+    </textAnnotation>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess_1">
     <bpmndi:BPMNPlane bpmnElement="myProcess_1" id="BPMNPlane_myProcess_1">
-      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+      <bpmndi:BPMNShape bpmnElement="startid" id="BPMNShape_startid">
         <omgdc:Bounds height="35.0" width="35.0" x="50.0" y="160.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+      <bpmndi:BPMNShape bpmnElement="eeid" id="BPMNShape_eeid">
         <omgdc:Bounds height="55.0" width="105.0" x="130.0" y="150.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+      <bpmndi:BPMNShape bpmnElement="mgrid" id="BPMNShape_mgrid">
         <omgdc:Bounds height="55.0" width="105.0" x="320.0" y="150.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="690.0" y="160.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="endid" id="BPMNShape_endid">
+        <omgdc:Bounds height="35.0" width="35.0" x="263.0" y="370.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
-        <omgdc:Bounds height="55.0" width="105.0" x="500.0" y="150.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="gwid" id="BPMNShape_gwid">
+        <omgdc:Bounds height="40.0" width="40.0" x="260.0" y="260.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="85.0" y="177.0"></omgdi:waypoint>
@@ -37,12 +45,22 @@
         <omgdi:waypoint x="320.0" y="177.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="425.0" y="177.0"></omgdi:waypoint>
-        <omgdi:waypoint x="500.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="372.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="280.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="280.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="280.0" y="370.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="16.0" width="100.0" x="280.0" y="319.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
-        <omgdi:waypoint x="605.0" y="177.0"></omgdi:waypoint>
-        <omgdi:waypoint x="690.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="280.0" y="260.0"></omgdi:waypoint>
+        <omgdi:waypoint x="182.0" y="205.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="16.0" width="100.0" x="266.0" y="231.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

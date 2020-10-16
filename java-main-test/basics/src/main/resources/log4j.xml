@@ -24,13 +24,15 @@
 	</appender>
 	<!-- 数据库持久化 -->
 	<!-- 建议覆盖JDBCAppender，原因详见http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/jdbc/JDBCAppender.html -->
-	<!-- Pattern详见https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html -->
 	<appender name="db" class="cn.net.bhe.basics.keep.logger.JDBCAppender">
 		<param name="URL" value="jdbc:oracle:thin:@localhost:1521:orcl" />
 		<param name="driver" value="oracle.jdbc.driver.OracleDriver" />
 		<param name="user" value="bhe" />
 		<param name="password" value="123" />
-		<param name="sql" value="insert into t_logger(message, priority, classname, method, line, logdate, thread) values('%m', '%p', '%C', '%M', '%L', '%d{yyyy-MM-dd HH:mm:ss,SSS}', '%t')" />
+		<!-- PatternLayout详见http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/EnhancedPatternLayout.html -->
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern" value="insert into t_log4j(logdate, priority, pos, throwable, message, thread) values('%d{yyyy-MM-dd HH:mm:ss,SSS}', '%p', '%c', '%throwable', '%m', '%t')" />
+		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="levelMin" value="warn" />
 			<param name="levelMax" value="fatal" />

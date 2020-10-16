@@ -21,16 +21,36 @@
 		</encoder>
 		<filter class="cn.net.bhe.springbootmybatis.filter.LogFilter" />
 	</appender>
+	<!-- http://logback.qos.ch/manual/appenders.html -->
+	<!-- http://logback.qos.ch/manual/filters.html -->
+	<appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<dataSource class="org.apache.commons.dbcp2.BasicDataSource">
+				<driverClassName>oracle.jdbc.driver.OracleDriver</driverClassName>
+				<url>jdbc:oracle:thin:@localhost:1521:orcl</url>
+				<username>bhe</username>
+				<password>123</password>
+			</dataSource>
+		</connectionSource>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
 	<root level="info">
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
+		<appender-ref ref="db" />
 	</root>
 	<logger name="org.mybatis" level="trace" additivity="false">
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
+		<appender-ref ref="db" />
 	</logger>
 	<logger name="cn.net.bhe.springbootmybatis" level="debug" additivity="false">
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
+		<appender-ref ref="db" />
 	</logger>
 </configuration>

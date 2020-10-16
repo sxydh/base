@@ -2,11 +2,16 @@ package cn.net.bhe.basics.keep;
 
 import static cn.net.bhe.utils.main.PrintUtils.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import cn.net.bhe.utils.main.ListNode;
 
 public class Test {
+    
+    static final Logger log = LoggerFactory.getLogger(Test.class);
 
     public static void main(String[] args) {
+        log.error("error信息");
     }
 
     @org.junit.jupiter.api.Test

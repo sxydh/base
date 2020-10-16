@@ -4,11 +4,9 @@
 <!-- 参考https://juejin.im/post/5b51f85c5188251af91a7525 -->
 <!-- debug="true"将会打印出log4j内部日志信息，默认false -->
 <log4j:configuration debug="false">
-	<appender name="console"
-		class="org.apache.log4j.ConsoleAppender">
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="[%d{HH:mm:ss\}][%t] %c{2\} - %m%n" />
+			<param name="ConversionPattern" value="[%d{HH:mm:ss\}][%t] %c{2\} - %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="levelMin" value="debug" />
@@ -16,19 +14,33 @@
 			<param name="AcceptOnMatch" value="true" />
 		</filter>
 	</appender>
-	<appender name="file"
-		class="org.apache.log4j.DailyRollingFileAppender">
+	<appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="./cn.net.bhe.basics.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
-		<param name="Encoding" value="UTF-8"/>
+		<param name="Encoding" value="UTF-8" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p][%t] %c{3\} - %m%n" />
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p][%t] %c{3\} - %m%n" />
 		</layout>
+	</appender>
+	<!-- 数据库持久化 -->
+	<!-- 建议覆盖JDBCAppender，原因详见http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/jdbc/JDBCAppender.html -->
+	<!-- Pattern详见https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html -->
+	<appender name="db" class="cn.net.bhe.basics.keep.logger.JDBCAppender">
+		<param name="URL" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<param name="driver" value="oracle.jdbc.driver.OracleDriver" />
+		<param name="user" value="bhe" />
+		<param name="password" value="123" />
+		<param name="sql" value="insert into t_logger(message, priority, classname, method, line, logdate, thread) values('%m', '%p', '%C', '%M', '%L', '%d{yyyy-MM-dd HH:mm:ss,SSS}', '%t')" />
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="warn" />
+			<param name="levelMax" value="fatal" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
 	</appender>
 	<root>
 		<priority value="debug" />
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
+		<appender-ref ref="db" />
 	</root>
 </log4j:configuration>

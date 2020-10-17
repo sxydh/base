@@ -19,11 +19,12 @@
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 		</encoder>
-		<filter class="cn.net.bhe.springbootmybatis.filter.LogFilter" />
+		<filter class="cn.net.bhe.springbootmybatis.logger.LogFilter" />
 	</appender>
 	<!-- http://logback.qos.ch/manual/appenders.html -->
 	<!-- http://logback.qos.ch/manual/filters.html -->
-	<appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+	<!-- http://logback.qos.ch/manual/layouts.html -->
+	<appender name="db" class="cn.net.bhe.springbootmybatis.logger.BHEDBAppender">
 		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
 			<dataSource class="org.apache.commons.dbcp2.BasicDataSource">
 				<driverClassName>oracle.jdbc.driver.OracleDriver</driverClassName>
@@ -32,10 +33,8 @@
 				<password>123</password>
 			</dataSource>
 		</connectionSource>
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>INFO</level>
-			<onMatch>ACCEPT</onMatch>
-			<onMismatch>DENY</onMismatch>
 		</filter>
 	</appender>
 	<root level="info">

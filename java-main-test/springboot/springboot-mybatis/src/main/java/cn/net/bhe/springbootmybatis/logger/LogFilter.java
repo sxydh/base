@@ -1,4 +1,4 @@
-package cn.net.bhe.springbootmybatis.filter;
+package cn.net.bhe.springbootmybatis.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

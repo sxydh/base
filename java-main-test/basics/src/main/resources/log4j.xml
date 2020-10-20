@@ -29,10 +29,12 @@
 		<param name="driver" value="oracle.jdbc.driver.OracleDriver" />
 		<param name="user" value="bhe" />
 		<param name="password" value="123" />
+		
 		<!-- PatternLayout详见http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/EnhancedPatternLayout.html -->
-		<layout class="org.apache.log4j.EnhancedPatternLayout">
+		<!-- sql写死，不用EnhancedPatternLayout -->
+		<!-- <layout class="org.apache.log4j.EnhancedPatternLayout">
 			<param name="ConversionPattern" value="insert into t_log4j(logdate, priority, pos, throwable, message, thread) values('%d{yyyy-MM-dd HH:mm:ss,SSS}', '%p', '%c', '%throwable', '%m', '%t')" />
-		</layout>
+		</layout> -->
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="levelMin" value="warn" />
 			<param name="levelMax" value="fatal" />

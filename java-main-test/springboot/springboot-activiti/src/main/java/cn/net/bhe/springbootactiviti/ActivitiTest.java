@@ -64,7 +64,7 @@ public class ActivitiTest {
     
     @Test
     public void taskQuery() {
-        List<Task> list = activitiUtils.taskQuery("张三");
+        List<Task> list = activitiUtils.taskQuery("");
         if (list != null && list.size() > 0) {
             for (Task task : list) {
                 System.err.println("任务id：" + task.getId());
@@ -84,8 +84,10 @@ public class ActivitiTest {
     public void complete() {
         Map<String, Object> vars = new HashMap<String, Object>();
         vars.put("assignee", "");
-        vars.put("verify", 1); // 指定网关条件值
-        String taskId = "fae0e9bb-0ee7-11eb-9dd5-005056c00001";
+        
+        vars.put("verify", 0); // 指定网关条件值
+        
+        String taskId = "d0b8ebe6-1d6e-11eb-9257-005056c00001";
         activitiUtils.complete(taskId, vars);
         System.err.println("任务已执行，id：" + taskId);
     }

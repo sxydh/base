@@ -1,7 +1,16 @@
-#include <iostream>
+#include<iostream>
+#include<math.h>
+#include <cstring>
+#include <iomanip>
+
 using namespace std;
 
-int main()
-{
+class T {
+public:
+    static int i = 4;
+};
 
+int main() {
+    T t;
+    return 0;
 }
